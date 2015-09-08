@@ -1,0 +1,56 @@
+\subsection{Data collection}
+\label{section:data-collection}
+Collecting data from zones is not an easy task, especially when the amount of available time is relatively small. This is the reason why this assignment has been divided in two python scripts\footnote{The scripts are data\_wrapper\_JN.py and data\_wrapper\_ML.py}, each developed by one of us. The first script has two purposes:
+\begin{itemize}
+\item Creating an XML template \textit{data.xml}
+\item Collecting and inserting DNSSEC data into a new XML file (\textit{updated.xml}) which is based on \textit{data.xml}
+\end{itemize} 
+
+\noindent The second script focuses on updating \textit{updated.xml} with other DNSSEC data. It is worth noticing that our proof of concept is still at a beta level and needs to be enhanced. For instance, the scripts written for data retrieval fail if the name server of a zone is down. That said, let's assume they are all up.
+
+\subsubsection{General data structure}
+For security and scalability reasons, the SNMP subagent cannot fetch the data directly from the monitored zones. Indeed, the amount of SNMP traffic on the network would have been proportional to the number of zones, which means a loss of bandwidth for organizations dealing with a large number of domains. It must retrieve the data from a central repository instead. \textit{XML} (EXtensible Markup Language) seems to be the appropriate choice as it is meant to represent data-structures in a human and machine readable format, where the information is easily accessible for applications.
+\\
+We used \textit{python} and the \textit{ElementTree} XML API\cite{et} to build an XML template describing for each zone the MIB objects and their syntax. The resulting XML document is shown in listing \ref{listing:xml}
+
+
+\begin{listing}
+\begin{verbatim}
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<ZoneList>
+  <Zone id="1" name="berlin.warsaw.practicum.os3.nl">
+    <table name="dnssecZoneGlobalTable">
+      <item>
+        <data id="2" name="dnssecZoneGlobalServFail" type="Integer32"> </data>
+      </item>
+      [...]
+    </table>
+    [...]
+  </Zone>
+  [...]
+</ZoneList>
+\end{verbatim}
+\caption{XML template}
+\label{listing:xml}
+\end{listing}
+The main element of the file is \textit{ZoneList}, which is divided into \textit{Zone} sub-elements. Each zone element has two attributes which are \textit{id} and \textit{name} defining respectively the zone id and its name. The former is incremented for each new zone element, and the latter is retrieved from a text file\footnote{The text file "zone\_hint" is made of key/value pairs (zone/IP). The hard-coded IP address is used only if the corresponding zone shows a \textit{SERVFAIL} status.} that contains zones to monitor. The \textit{Zone} element is split into sub-elements as well, \textit{table}. \textit{table} has one attribute \textit{name} which values are tables defined in the MIB module, namely dnssecZoneGlobalTable, dnssecZoneAuthNSTable, dnssecZoneDiffTable. Each table is divided into sub-elements \textit{item}. An \textit{item} contains a sub-element \textit{data} with three attributes, \textit{id}, \textit{name} and \textit{type}. These represents the objects of the tables defined in the MIB module. The \textit{id} is the OID number of the corresponding table described in the \textit{name} attribute, and \textit{type} is the syntax of the content between the \textit{data} tags. The content is empty so far as it is going to be filled in with DNSSEC data of monitored zones, retrieved by a later part of the script.
+
+\subsubsection{Retrieving DNSSEC data}
+The XML template is now created and needs to be filled in with DNSSEC data. First of all, we verify whether the zone we want to retrieve data from is available from a resolver point of view in order to make sure that the DNSSEC data can be accessed. If it is not\footnote{The zone shows a \textit{SERVFAIL} status probably because the signature of at least one of its apex RR is expired.}, we query its authoritative name server instead. The query consists of either an \textit{AXFR} or a DNS query made possible thanks to the \textit{dnspython} library that allows to retrieve the data described in \ref{section:vital-life-signs-dnssec}. Furthermore, a copy of \textit{data.xml}, named \textit{updated.xml}, is created to avoid read/write conflicts. The data freshly retrieved is inserted into it by means of a python dictionary and \textit{Xpath} queries. The values of each item for each table represents a key in the dictionary and the retrieved data is the corresponding value as shown in Listing \ref{listing:dic}. Since the keys are constructed in a specific way ("zone\_name" + "\_" + "table" + "\_" + "item\_ID"), the \textit{Xpath} queries can add the DNSSEC data at the right place in the \textit{updated.xml} file. 
+\begin{listing}
+\begin{verbatim}
+{'warsaw.practicum.os3.nl_dnssecZoneSigTable_4': '"20161212121212"',
+'derby.practicum.os3.nl_dnssecZoneDiffTable_2': '1',
+'warsaw.practicum.os3.nl_dnssecZoneSigTable_3': '"20161212121212"',
+'warsaw.practicum.os3.nl_dnssecZoneSigTable_2': '"20150112142419"', 
+[...]}
+\end{verbatim}
+\caption{python dictionary}
+\label{listing:dic}
+\end{listing}
+Moreover, we have defined specific integer values that the data wrapper scripts return. These return values are defined as textual conventions in the MIB and are associated to a specific state as described in table \ref{table}. 
+
+
+%The \textit{AXFR} allows to get the entire zone data that can be easily parsed with the python \textit{re} module. Then, we can retrieve for a zone the number of resource records, the minimum and maximum TTL, the number of DS records and delegations and compare them with each other, the expiration date for the SOA, NS and DNSKEY RRSIG, the inception date of the oldest signature, and the discrepancies between serial numbers provided by the master and slave name server. The DNS queries help us to fetch the SOA RR, the name servers and their IP and  to validate the DNSKEY RRset with the published KSK,    
+

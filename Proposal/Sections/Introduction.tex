@@ -1,0 +1,8 @@
+\section{Introduction}
+\label{chap:introduction}
+As statistics demonstrate it, DNSSEC becomes more and more popular. Indeed, 77\% of TLDs have trust anchors published as DS records in the root zone \cite{stats}. However, to function properly, resource records of a DNSSEC-enabled zone need to be regularly signed since signatures have an expiration date. If signatures have not been refreshed in time, the zone becomes unreachable. This is not acceptable.
+\\
+Monitoring DNSSEC parameters like signature expiration dates, could avoid those undesired effects. For instance, a monitoring system would send notifications to the zone maintainer when a RRSIG of a resource record is about to expire.
+\\
+There exists a lot of approaches to monitor DNSSEC. For example, service providers offering DNSSEC services have developed their own utilities, mostly strongly related to their infrastructures and demands. All of these solutions do not use a standard protocol designed for monitoring, such as SNMP. SNMP provides an abstraction model for data which is required to be monitored. That data is represented in a common format, known as an SNMP MIB. Thus, it makes it applicable for a generic use in monitoring systems, rather than for custom made solutions. The absence of a Management Information Base for DNSSEC clearly demands to put effort into developing such a solution.
+

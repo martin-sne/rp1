@@ -1,0 +1,16 @@
+\section{Approach and Methods}
+\label{chap:approach_and_methods}
+As a first step, the research team needs to evaluate and define which DNSSEC related data will be collected and how the data can be retrieved.
+
+Possible data sources are included in signer instances like OpenDNSSEC \cite{opendnssec} (e.g. signing policies) or data from authoritative name servers. 
+
+Candidates for this data are for example the expiry time of the signature of the SOA record, the SOA record itself, discrepances in serial numbers in the SOA record or clock skews between the signer process and the authoritative DNS servers. 
+
+Based on that collected data, a design and implementation concept for the SNMP MIB has to be developed by the research team. That requires studying the common syntax and format of SNMP MIB modules which are defined in several RFC's \cite{snmp-rfc}. The research team will build  the SNMP MIB module by obeying the standard recommendations given in RFC2578-2580 for SMIv2. MIB browsers \cite{mibbrowser} and tools to verify the syntax \cite{mibchecker} of our created SNMP MIB module will be used during the research. 
+
+Once the MIB has been constructed it needs to be registered to an SNMP subagent and the values need to get updated frequently to make it accessible for monitoring purposes. This subagent will be implemented by using an existing Python class, as described in \ref{chap:related_work} or by writing our own sub agent in Python.
+
+An approach of the research team is to decouple the data collecting mechanism from the mechanism which provides the data to our SNMP MIB module. That means that a separate process needs to be created to collect the relevant data in advance in a machine parsable format. The SNMP variables of our MIB module will be updated frequently by another process subsequently. We have chosen this approach because of scalability and security reasons. 
+
+Finally a monitoring probe will be created and implemented in a standard monitoring system like Nagios \cite{nagios}. 
+

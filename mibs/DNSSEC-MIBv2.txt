@@ -1,0 +1,259 @@
+DNSSEC-MIBv2 DEFINITIONS ::= BEGIN
+
+-- Imports
+
+IMPORTS
+	MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+	Integer32, Unsigned32, Gauge32, TimeTicks
+		FROM SNMPv2-SMI
+	TEXTUAL-CONVENTION, DisplayString, DateAndTime
+		FROM SNMPv2-TC
+	MODULE-COMPLIANCE, OBJECT-GROUP, NOTIFICATION-GROUP
+		FROM SNMPv2-CONF
+	agentxObjects
+		FROM AGENTX-MIB;
+
+
+-- Description and update information
+
+dnssecMIBv2 MODULE-IDENTITY
+	LAST-UPDATED "201501110000Z"
+	ORGANIZATION "UvA"
+	CONTACT-INFO
+			"Author:	Martin Leucht
+			EMail: <martin.leucht@os3.nl>
+			
+      Author: Julien Nyczak
+      EMail: <julien.nyczak@os3.nl>
+      "
+
+	DESCRIPTION
+		"DNSSEC MIB Draft - minimized MIB"
+	REVISION "201501110000Z"
+	DESCRIPTION
+		"TODO: Here we put an concise decription"
+::= { agentxObjects 10860 }
+
+
+-- Definition of MIB's root nodes
+
+ dnssecObjects OBJECT IDENTIFIER      		::= { dnssecMIBv2 1 }
+ dnssecMIBv2Conformance OBJECT IDENTIFIER 	::= { dnssecMIBv2 2 }
+ dnssecGeneral OBJECT IDENTIFIER      		::= { dnssecObjects 1 }
+ dnssecGlobal OBJECT IDENTIFIER   		    ::= { dnssecObjects 2 }
+ dnssecZoneAuthNs OBJECT IDENTIFIER       ::= { dnssecObjects 3 }
+
+ 
+
+dnssecZoneCount OBJECT-TYPE
+ SYNTAX      Unsigned32 (0..4294967295)
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "total number of DNS zones registered"
+ ::= { dnssecGeneral 1 }
+
+
+dnssecGlobalTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecGlobalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecGlobal 2 }
+
+dnssecGlobalEntry OBJECT-TYPE
+  SYNTAX      DnssecGlobalEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex }
+   ::= { dnssecGlobalTable 1 }
+
+ DnssecGlobalEntry ::= SEQUENCE {
+          dnssecGlobalIndex          		DomainOctetString,
+          dnssecGlobalZoneName            DomainOctetString,
+          dnssecGlobalZoneRecordCount  		Unsigned32,
+          dnssecGlobalZoneRecordSetCount 	Unsigned32, 
+          dnssecGlobalZoneDelegationCount	Unsigned32,
+          dnssecGlobalZoneRRSigningEnabled	Integer32,
+	        dnssecGlobalZoneDSValidated		Integer32,
+	        dnssecGlobalZoneAuthNsCount           Unsigned32}
+
+DomainOctetString ::= TEXTUAL-CONVENTION
+    DISPLAY-HINT    "1024t"
+    STATUS          current
+    DESCRIPTION
+        "An octet string containing characters in UTF-8 encoding."
+    SYNTAX          OCTET STRING (SIZE (1..1024))
+    REFERENCE       RFC2579
+
+
+ dnssecGlobalIndex OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecGlobalEntry 1 }
+
+ dnssecGlobalZoneName OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Domain/Zone name"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 2 }
+ 
+dnssecGlobalZoneRecordCount OBJECT-TYPE
+   SYNTAX       Unsigned32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of resource records present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 3 }
+
+
+dnssecGlobalZoneRecordSetCount OBJECT-TYPE
+   SYNTAX       Unsigned32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of resource record sets present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 4 }
+
+dnssecGlobalZoneDelegationCount OBJECT-TYPE
+   SYNTAX       Unsigned32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of zone delegations present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 5 }
+
+dnssecGlobalZoneRRSigningEnabled OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if resource records are signed"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 6 }
+
+
+dnssecGlobalZoneDSValidated OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if chain of trust exists."
+    REFERENCE
+            "RFC"
+   ::= { dnssecGlobalEntry 7 }
+
+dnssecGlobalZoneAuthNsCount OBJECT-TYPE
+ SYNTAX      Unsigned32
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Number of authoritative name servers for this zone"
+ ::= { dnssecGlobalEntry 8 }
+
+
+-- Next table
+-- table
+
+dnssecZoneAuthNsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneAuthNsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneAuthNs 3 }
+
+dnssecZoneAuthNsEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneAuthNsEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex, dnssecZoneAuthNsIndex }
+   ::= { dnssecZoneAuthNsTable 1 }
+
+ DnssecZoneAuthNsEntry ::= SEQUENCE {
+          dnssecZoneAuthNsIndex                 Unsigned32,
+          dnssecZoneAuthNsName                  DomainOctetString}
+
+ dnssecZoneAuthNsIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneAuthNsEntry 1 }
+
+dnssecZoneAuthNsName OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Name(s) of authoritative nameservers for this zone"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneAuthNsEntry 2 }
+
+
+-- table end
+-- Conformance Statements for DNSSEC
+
+
+dnssecMIBv2Groups       OBJECT IDENTIFIER   ::= { dnssecMIBv2Conformance 1 }
+dnssecMIBv2Compliances  OBJECT IDENTIFIER   ::= { dnssecMIBv2Conformance 2 }
+
+dnssecMIBv2ScalarGroup OBJECT-GROUP
+  OBJECTS {
+      dnssecZoneCount
+         }
+  STATUS      current
+  DESCRIPTION
+     "All accessible scalar objects in the DNSSEC-MIB.
+     "
+  ::= { dnssecMIBv2Groups 1 }
+
+
+dnssecMIBv2TableGroup OBJECT-GROUP
+  OBJECTS {
+      dnssecGlobalZoneName,
+      dnssecGlobalZoneRecordCount,
+      dnssecGlobalZoneRecordSetCount,
+      dnssecGlobalZoneDelegationCount,
+      dnssecGlobalZoneRRSigningEnabled,
+      dnssecGlobalZoneDSValidated,
+      dnssecGlobalZoneAuthNsCount,
+      dnssecZoneAuthNsName
+    }
+
+  STATUS      current
+  DESCRIPTION
+     "All accessible table objects in the DNSSEC-MIB.
+     "
+  ::= { dnssecMIBv2Groups 2 }
+
+END
+
+

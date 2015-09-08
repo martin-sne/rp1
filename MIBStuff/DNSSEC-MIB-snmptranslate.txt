@@ -1,0 +1,103 @@
+dream-machine:mibs martin2$ snmptranslate -Tp DNSSEC-MIB::dnssecMIB  
++--dnssecMIB(10859)
+   |
+   +--dnssecObjects(1)
+   |  |
+   |  +--dnssecGeneral(1)
+   |  |  |
+   |  |  +-- -R-- Unsigned  dnssecZoneCount(1)
+   |  |           Range: 0..4294967295
+   |  |
+   |  +--dnssecGlobal(2)
+   |  |  |
+   |  |  +--dnssecGlobalTable(2)
+   |  |     |
+   |  |     +--dnssecGlobalEntry(1)
+   |  |        |  Index: dnssecGlobalIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecGlobalIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- String    dnssecGlobalZoneName(2)
+   |  |        |        Textual Convention: DisplayString
+   |  |        |        Size: 0..255
+   |  |        +-- -R-- Gauge     dnssecGlobalZoneRecordCount(3)
+   |  |        +-- -R-- Gauge     dnssecGlobalZoneRecordSetCount(4)
+   |  |        +-- -R-- Gauge     dnssecGlobalZoneDelegationCount(5)
+   |  |        +-- -R-- Integer32 dnssecGlobalZoneRRSigningEnabled(6)
+   |  |        +-- -R-- Integer32 dnssecGlobalZoneSigSigchase(7)
+   |  |        +-- -R-- Gauge     dnssecGlobalZoneAuthNsCount(8)
+   |  |
+   |  +--dnssecZoneSig(3)
+   |  |  |
+   |  |  +--dnssecZoneSigTable(3)
+   |  |     |
+   |  |     +--dnssecZoneSigEntry(1)
+   |  |        |  Index: dnssecGlobalIndex, dnssecZoneSigIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecZoneSigIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- String    dnssecZoneSigOldestSignatureTime(2)
+   |  |        |        Textual Convention: DateAndTime
+   |  |        |        Size: 8 | 11
+   |  |        +-- -R-- String    dnssecZoneSigSoaSignatureTime(3)
+   |  |        |        Textual Convention: DateAndTime
+   |  |        |        Size: 8 | 11
+   |  |        +-- -R-- String    dnssecZoneSigOpenDnssecPolicyTime(4)
+   |  |        |        Textual Convention: DateAndTime
+   |  |        |        Size: 8 | 11
+   |  |        +-- -R-- Gauge     dnssecZoneSigSignaturesTotal(5)
+   |  |        +-- -R-- Gauge     dnssecZoneSigValidationErrors(6)
+   |  |        +-- -R-- Gauge     dnssecZoneSigVerifiedSignatures(7)
+   |  |
+   |  +--dnssecZoneAuthNs(4)
+   |  |  |
+   |  |  +--dnssecZoneAuthNsTable(4)
+   |  |     |
+   |  |     +--dnssecZoneAuthNsEntry(1)
+   |  |        |  Index: dnssecGlobalIndex, dnssecZoneAuthNsIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecZoneAuthNsIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- String    dnssecZoneAuthNsName(2)
+   |  |                 Textual Convention: DisplayString
+   |  |                 Size: 0..255
+   |  |
+   |  +--dnssecZoneGlobHealth(5)
+   |  |  |
+   |  |  +--dnssecZoneGlobHealthTable(5)
+   |  |     |
+   |  |     +--dnssecZoneGlobHealthEntry(1)
+   |  |        |  Index: dnssecGlobalIndex, dnssecZoneGlobHealthIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecZoneGlobHealthIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- Integer32 dnssecGlobHealthCNAMECorrectImplementation(2)
+   |  |        +-- -R-- Integer32 dnssecGlobHealthDNAMECorrectImplementation(3)
+   |  |        +-- -R-- Integer32 dnssecGlobHealthCorrectNSInstanceCount(4)
+   |  |        +-- -R-- Integer32 dnssecGlobHealthMXNoAlias(5)
+   |  |        +-- -R-- Integer32 dnssecGlobHealthAuthNsServesRa(6)
+   |  |        +-- -R-- Integer32 dnssecGlobHealthNSNoAlias(7)
+   |  |
+   |  +--dnssecZoneDiff(6)
+   |     |
+   |     +--dnssecZoneDiffTable(6)
+   |        |
+   |        +--dnssecZoneDiffEntry(1)
+   |           |  Index: dnssecGlobalIndex, dnssecZoneAuthNsIndex, dnssecZoneDiffIndex
+   |           |
+   |           +-- ---- Unsigned  dnssecZoneDiffIndex(1)
+   |           |        Range: 1..4294967295
+   |           +-- -R-- Integer32 dnssecZoneDiffSerial(2)
+   |           +-- -R-- Integer32 dnssecZoneDiffKsk(3)
+   |           +-- -R-- Integer32 dnssecZoneDiffZsk(4)
+   |           +-- -R-- Integer32 dnssecZoneDiffRrsig(5)
+   |           +-- -R-- Integer32 dnssecZoneDiffDs(6)
+   |
+   +--dnssecMIBConformance(2)
+      |
+      +--dnssecMIBGroups(1)
+      |  |
+      |  +--dnssecMIBScalarGroup(1)
+      |  +--dnssecMIBTableGroup(2)
+      |
+      +--dnssecMIBCompliances(2)

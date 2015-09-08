@@ -1,0 +1,198 @@
+dream-machine:MIBStuff martin2$ dig +dnssec A  www.paris.derby.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec A www.paris.derby.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 15632
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;www.paris.derby.practicum.os3.nl. IN	A
+
+;; ANSWER SECTION:
+www.paris.derby.practicum.os3.nl. 600 IN A	145.100.104.59
+www.paris.derby.practicum.os3.nl. 600 IN RRSIG	A 8 6 600 20150212093917 20150113093917 58128 paris.derby.practicum.os3.nl. PYpIhw7C1bFzJVU5QiJAUtHnIshSo/Ky67J172CogpfHkuECF6XAE8eO NF7LR4lgJVg85RTCWYsJ2PmNgoIcJzpaqDTLWyv2a8vAcK4HjjBa3a5x ZmFpmf5NNx25RHa5MBb/cKyQpTG8M2ggDbhqW94OiL5X6iLjcxv4Pinx SVdsQDqyzL0Ye6EOCw+K+yUdlWRHodl22lk/GbhJuquqQQsHMyApJthr XJjkqCTdbLb6VpzLazm6H5RuRdxi5/Am+q3GiiEPezKz7EKMBMyArOYP Uf6DLgxhUoS1CKTqbzatHq/3o09+EI/zWnRfMwfYC5F9J+JoQka+GwyG 7JDrmw==
+
+;; AUTHORITY SECTION:
+paris.derby.practicum.os3.nl. 600 IN	NS	ns1.warsaw.practicum.os3.nl.
+paris.derby.practicum.os3.nl. 600 IN	RRSIG	NS 8 5 600 20150212093917 20150113093917 58128 paris.derby.practicum.os3.nl. RMckWtTYXqwYI5YWRs12JcfvrlXGbHNTilb08VAV6W0oWaxgaYwjteXz 9IDxq7oY56kcLo9TGGcyyn23PHnFkl0lX4ifokUwpeJ6ZfNZ74dYmOu1 OVb5G9483F22msCAzx16I/6emzRTgTLF+slS7d+QCm0g8SegxS1nP0Rt JSGT7ZZC6kGjftmzA1fhTTBicdo7a0XwFj253o/bafn1hatMRKWjK9/S ooM5fyGrZASWtIqzOwxZi6btwe54DGktgV7YxrxNNiwJ6OzwA7bu/AMR jBzo1+qyJFOdk73CAAdPHOJSrLKkrAB8xSHexgYDMpYjxcQKgAPUpDuY NdJavw==
+
+;; ADDITIONAL SECTION:
+ns1.warsaw.practicum.os3.nl. 600 IN	A	145.100.104.62
+ns1.warsaw.practicum.os3.nl. 600 IN	RRSIG	A 8 5 600 20161212121212 20150105155745 55680 warsaw.practicum.os3.nl. tnqJ9eDOJ+/QVBgs8Ls8ZAnnCqFFi/1VRVTTHE+fyYdb7wlLUTpNM84b assflE5NAK+wznXMS0SWkvcL6pjWHRmcFinAAzkXOgsP98rNvfee7fnU 4vrxLU1ZG2ZXbOre2qlgB5TcPtQtb83fVsaEOE5oD/6QrHB2ys2/ayaK lOurU+SwwoHr2el5pNLIElaKzG8eDLZLuGPNzvLouH76I6lnGx/1pyua MzuTW+Jaw0Ms+eWux9IHiuPuSqRW5tcfLsCbUIjtfJ/TX5zEiOQHhqyI 0t6rgWTUMhlFotq5njE/MA6Ut36I2pLI2Pqc50r6+Fa62qaBizDAN+By bj3Bgw==
+
+;; Query time: 7 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 18:34:27 2015
+;; MSG SIZE  rcvd: 1061
+
+dream-machine:MIBStuff martin2$ dig +dnssec A  test1.berlin.warsaw.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec A test1.berlin.warsaw.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 63169
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 4
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;test1.berlin.warsaw.practicum.os3.nl. IN A
+
+;; ANSWER SECTION:
+test1.berlin.warsaw.practicum.os3.nl. 600 IN A	145.100.104.165
+test1.berlin.warsaw.practicum.os3.nl. 600 IN RRSIG A 8 6 600 20150212093652 20150113093652 4380 berlin.warsaw.practicum.os3.nl. 0QH9/Sk6GkjpORXZPTv4yUhbNSN+cPwM/W/YEIUxlnOfbJYgqmGMQfMO r4HYATrM11QzlcuU6dz4COtWpfDtZ3KiTwYL7caYTyJiUMHUsiF0l7fG /jCk8fPcXIsU8aHvpKQuNqcHCd05lx/8TFAonmFi7bpqcp8UR6g/0rUr Q8jd2oL1XAtgVG9Ach1cnHYnC6CAKM3OvmkXng06ZV2xXKgmRyo3EDws r0IBajutcp7On2TP0rMpvSdvvKS72Zb7J7pte6arcd42m5pEnQehWOSZ mPiV3MV4zZGab9aGQnP0xPYNd+F9vYh8d0J108X+KrDC5p8Gnqnr4PEz p7s4uw==
+
+;; AUTHORITY SECTION:
+berlin.warsaw.practicum.os3.nl.	600 IN	NS	derby.practicum.os3.nl.
+berlin.warsaw.practicum.os3.nl.	600 IN	RRSIG	NS 8 5 600 20150212093652 20150113093652 4380 berlin.warsaw.practicum.os3.nl. G0d9RZiNNXoHhm8+fQdzj1Ag8xl2kL0XrqM9AFE20yMkmncciaa1fLJg F2WV2+UAL+kgmxr5ezueXJuvOT441OZ3IouACbVyQVXpA+iOwpLEh0R7 LqU9NWup9YgIvf5epa2xDlzeNsczFQABWjWksznQZ4dt36bs30MZLaOQ Q2pqEx/NXguY0krOz2yfAN/uc1MaI2XdsVUgMbDfEh+S1QJTu6Cs+gzQ LuHvuQYOYxKr6gh33HtkriVDQmmaYViD4YTfXoVDLLkDuUF+RmJsdikg HFR2zGJtNisMKf3SbCvkFbf7HLD2emiZ1i1K1HjhdEvDOSfZ3jRPGZ20 sUMCYg==
+
+;; ADDITIONAL SECTION:
+derby.practicum.os3.nl.	86400	IN	A	145.100.104.165
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 21975 derby.practicum.os3.nl. k/iT951SBJP8xDGYPmbEkfCcO39LLgCSARUfmcLuKhH5+N0nDvD4YH0T gMrlm/0gVbXiuVSVJMjmZYO2a4NCxGyivoowJ0GUIYpiE9pMewc+bddz 1bod/Zyh5HEFQvh8/w3tM2t5rPPKV1ZNqgdp03jBUinHY549I8+URzPn q9LdUleaS1jQkGrJ3z4zOTXmHRTTvznrsnwdDqNip5DvBIF+TEYTmT1L JuYqwx4Mln6f+kr3g63yn8GggtC9yV/mo07cYibNkzpR1UyKhJ+lKMnX +St14PuDLEVR6HaTZwFsHlQdcFLxeG3qt5qbRtHWmjHuPlkVKwrIC5XV t4ywfw==
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 53271 derby.practicum.os3.nl. j1WhbTcerfIELEuMb937spf0PHyxY4dsJ5W7l99LyNybhMzrOz/Qmx33 rwFx6K2i3//JDipN23vyoV++QoCewK5i+lb95ojkUxtzO0G6mhbhGpfj j++qnyTTKqOLtQRkFLlW47+Fj0xDSEpSkGwJmk1uF2jV/3gopEA8rfoT KwZ/YQYOtT4kS8/PkQ6confGNeTcJUX2TXnHkJ8dZsYWNVp83PmVDaX6 frqor3JcJvgOn64lTPjoAklcyVyGrB5PnRa6TiyOzJdHKQgbkYewDB7c JmwrAefX+BK3fyI1cYerDkeBAhrZtexKzPiXuFucXbNDI5vPvbuX0cz5 8dttew==
+
+;; Query time: 14 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 18:34:46 2015
+;; MSG SIZE  rcvd: 1373
+
+dream-machine:MIBStuff martin2$ dig +dnssec NS  warsaw.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec NS warsaw.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38133
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 6
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;warsaw.practicum.os3.nl.	IN	NS
+
+;; ANSWER SECTION:
+warsaw.practicum.os3.nl. 600	IN	NS	derby.practicum.os3.nl.
+warsaw.practicum.os3.nl. 600	IN	NS	ns1.warsaw.practicum.os3.nl.
+warsaw.practicum.os3.nl. 600	IN	RRSIG	NS 8 4 600 20161212121212 20150112142419 55680 warsaw.practicum.os3.nl. CGdd0IBzbYD7BwcTPYAPzaWekCcEHWkENwK4B5dP9HHBpYGwR06sfdC2 PQloImMxe3wp8a2CVPHdeQGJlGAKXIsisFuLzJzSBzFEPqJ99WzjLwjq AjmiCwC828hro1qLWNsPVuuceiiXCQAOrJfvkDSrlkvMUgK3OswC1tmD oipmfbvpVe87bTli6qWAqvGrXy8M6kgRHrv68PfdDyOBq4En9RLSs7dy qwO0mkITJBxOEm7pc5ODbXLxjxbD0nPOWMgYPLFi34ha+SkNqpMDrgB6 Qn5XGte7T1g4Ij++yaCIMuAi+sbHpe0Q7CEWOnCJVU9HLKHzHSFlD554 J7VQvw==
+
+;; ADDITIONAL SECTION:
+ns1.warsaw.practicum.os3.nl. 600 IN	A	145.100.104.62
+derby.practicum.os3.nl.	86400	IN	A	145.100.104.165
+ns1.warsaw.practicum.os3.nl. 600 IN	RRSIG	A 8 5 600 20161212121212 20150105155745 55680 warsaw.practicum.os3.nl. tnqJ9eDOJ+/QVBgs8Ls8ZAnnCqFFi/1VRVTTHE+fyYdb7wlLUTpNM84b assflE5NAK+wznXMS0SWkvcL6pjWHRmcFinAAzkXOgsP98rNvfee7fnU 4vrxLU1ZG2ZXbOre2qlgB5TcPtQtb83fVsaEOE5oD/6QrHB2ys2/ayaK lOurU+SwwoHr2el5pNLIElaKzG8eDLZLuGPNzvLouH76I6lnGx/1pyua MzuTW+Jaw0Ms+eWux9IHiuPuSqRW5tcfLsCbUIjtfJ/TX5zEiOQHhqyI 0t6rgWTUMhlFotq5njE/MA6Ut36I2pLI2Pqc50r6+Fa62qaBizDAN+By bj3Bgw==
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 21975 derby.practicum.os3.nl. k/iT951SBJP8xDGYPmbEkfCcO39LLgCSARUfmcLuKhH5+N0nDvD4YH0T gMrlm/0gVbXiuVSVJMjmZYO2a4NCxGyivoowJ0GUIYpiE9pMewc+bddz 1bod/Zyh5HEFQvh8/w3tM2t5rPPKV1ZNqgdp03jBUinHY549I8+URzPn q9LdUleaS1jQkGrJ3z4zOTXmHRTTvznrsnwdDqNip5DvBIF+TEYTmT1L JuYqwx4Mln6f+kr3g63yn8GggtC9yV/mo07cYibNkzpR1UyKhJ+lKMnX +St14PuDLEVR6HaTZwFsHlQdcFLxeG3qt5qbRtHWmjHuPlkVKwrIC5XV t4ywfw==
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 53271 derby.practicum.os3.nl. j1WhbTcerfIELEuMb937spf0PHyxY4dsJ5W7l99LyNybhMzrOz/Qmx33 rwFx6K2i3//JDipN23vyoV++QoCewK5i+lb95ojkUxtzO0G6mhbhGpfj j++qnyTTKqOLtQRkFLlW47+Fj0xDSEpSkGwJmk1uF2jV/3gopEA8rfoT KwZ/YQYOtT4kS8/PkQ6confGNeTcJUX2TXnHkJ8dZsYWNVp83PmVDaX6 frqor3JcJvgOn64lTPjoAklcyVyGrB5PnRa6TiyOzJdHKQgbkYewDB7c JmwrAefX+BK3fyI1cYerDkeBAhrZtexKzPiXuFucXbNDI5vPvbuX0cz5 8dttew==
+
+;; Query time: 10 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 18:36:10 2015
+;; MSG SIZE  rcvd: 1364
+
+dream-machine:MIBStuff martin2$ dig +dnssec NS  derby.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec NS derby.practicum.os3.nl. @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18334
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 4
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;derby.practicum.os3.nl.		IN	NS
+
+;; ANSWER SECTION:
+derby.practicum.os3.nl.	86400	IN	NS	derby.practicum.os3.nl.
+derby.practicum.os3.nl.	86400	IN	RRSIG	NS 8 4 86400 20151030000000 20141125164323 21975 derby.practicum.os3.nl. WoZKooTrg180qMXxPws2yXorZuxpxrjNwzRY/BQyUv7naavqwGdo72cd +QTxlaUDkTydfvKb010BaW7UHb7Hs0WDDfwcjRSHRTlQIwnTKffZBzwG bcfIqnokNQAnFIN+/HqnPyJLdbqc/Lzs5KHTOxYnYxWFMqvJO/msC4z3 1srMhWeEHymDDE0vdByG2ZH9IupPoWG8EXVEjvxh1YU/oFwSAVzBu59C odvHjGeSyFGW7Ym8ch0Z1ByyjkbmMJ8YNJGQoST2NsiX4C4VVqwsbTxD MWcHsq8z82mard29fJvDyodWXtZecQzTkpwHS/fbfktp4ofYJ8dm7hkB xrpfhQ==
+derby.practicum.os3.nl.	86400	IN	RRSIG	NS 8 4 86400 20151030000000 20141125164323 53271 derby.practicum.os3.nl. 0HQ7nhg+tov5Kl8eveMLsRqsj4M99pd153oo+FNLHHPdmhmig9uxh+i5 esVaW1NyDb1GJtWskq7rL9XvQgb9YdqggDU8lVvHptw8WXXnvF0JLL/m 2za/OvEDIrGRSD3cgS3UyiwFlbhY7fNAopFTOrJzYaH7Bbclt14sIIrY GrVHaMYUTlwHFzvbNBFSzkLLNJJ21yQ6oYxUG92fE6cIEwr7MEGQZiLe 8m17INmzAigBj085qMijb+ad0SB9XpVfcWPXMrYj1ARFRa/OTCtQ8k9j P+1WLNduSjIM8ZxMyf9hrQCAzROAfbCJI6Tb9FiqtpdazYW5QRBbz3wM tOFq5Q==
+
+;; ADDITIONAL SECTION:
+derby.practicum.os3.nl.	86400	IN	A	145.100.104.165
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 21975 derby.practicum.os3.nl. k/iT951SBJP8xDGYPmbEkfCcO39LLgCSARUfmcLuKhH5+N0nDvD4YH0T gMrlm/0gVbXiuVSVJMjmZYO2a4NCxGyivoowJ0GUIYpiE9pMewc+bddz 1bod/Zyh5HEFQvh8/w3tM2t5rPPKV1ZNqgdp03jBUinHY549I8+URzPn q9LdUleaS1jQkGrJ3z4zOTXmHRTTvznrsnwdDqNip5DvBIF+TEYTmT1L JuYqwx4Mln6f+kr3g63yn8GggtC9yV/mo07cYibNkzpR1UyKhJ+lKMnX +St14PuDLEVR6HaTZwFsHlQdcFLxeG3qt5qbRtHWmjHuPlkVKwrIC5XV t4ywfw==
+derby.practicum.os3.nl.	86400	IN	RRSIG	A 8 4 86400 20151030000000 20141125164323 53271 derby.practicum.os3.nl. j1WhbTcerfIELEuMb937spf0PHyxY4dsJ5W7l99LyNybhMzrOz/Qmx33 rwFx6K2i3//JDipN23vyoV++QoCewK5i+lb95ojkUxtzO0G6mhbhGpfj j++qnyTTKqOLtQRkFLlW47+Fj0xDSEpSkGwJmk1uF2jV/3gopEA8rfoT KwZ/YQYOtT4kS8/PkQ6confGNeTcJUX2TXnHkJ8dZsYWNVp83PmVDaX6 frqor3JcJvgOn64lTPjoAklcyVyGrB5PnRa6TiyOzJdHKQgbkYewDB7c JmwrAefX+BK3fyI1cYerDkeBAhrZtexKzPiXuFucXbNDI5vPvbuX0cz5 8dttew==
+
+;; Query time: 10 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 18:36:30 2015
+;; MSG SIZE  rcvd: 1321
+
+dream-machine:rp1 martin2$ dig +dnssec NS  derby.practicum.os3.nl. @derby.practicum.os3.nl.
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec NS derby.practicum.os3.nl. @derby.practicum.os3.nl.
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7255
+;; flags: qr aa rd; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 6
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;derby.practicum.os3.nl.		IN	NS
+
+;; ANSWER SECTION:
+derby.practicum.os3.nl.	600	IN	NS	derby.practicum.os3.nl.
+derby.practicum.os3.nl.	600	IN	NS	ns1.warsaw.practicum.os3.nl.
+derby.practicum.os3.nl.	600	IN	RRSIG	NS 8 4 600 20150212101219 20150113101219 21975 derby.practicum.os3.nl. s55ajMk86WCB9J+bXxtS8cL57G2i+8LXJMg9r23j5duTA7M/dz6ePe6W efo20QdV5O+URednGUyQvuqR4NVp5Jr+DptDY+rkkxnTs4qwqSQZIbqh quJh+OL8HUeLzbN2eMXz34qznhLRWcVuMcMvQCCfzGDPYsXv0sDFwwD8 9UTmVOms69hmue2qo/iaY3Br/blrT2NAoFCd1eP4Bh/lpQ2kTwg+l3f2 YSVLbIyUupj7eHxWxZFFpsyklVlI5lDOyImmlDW9LcYGcQou3e9l4wnY yKmqHH7GmACEV9sn40xlPClrl2MNmQvFZgEFuYGKh9+eiu0Xt5/Pdk5b 2rZFeA==
+derby.practicum.os3.nl.	600	IN	RRSIG	NS 8 4 600 20150212101219 20150113101219 53271 derby.practicum.os3.nl. A8DYA0mcN6YkodaqktkiuryTrjkfxZtEq7asBBm1nq99z9YCv1hIfU36 Rpih9UUKdNPSUPz+WB/OS6Qp4n/95X6uWFsWHail2CX+3GYcXzqoe8Jn bnBpYN6lKD0+byb5nzcgqiy8DB20sJKHPef0W9noeHuqRwc5pBx5agW1 U74gaFm6HVLDIWzbysEeRVWWmGXxHAZsSUnKKBpblo2Cx2Cp0dVqKB8h XOgAemWV+BFeJFMr0Hpzt7c+FGIejFtmCxw7csOAS3R5W53ClAuVoYt8 plfUGcx56hQr6YYGAtZzYhcg4iiDOeAUvYnEpb7gdQfcf6VtWR9sECW3 hdgjVA==
+
+;; ADDITIONAL SECTION:
+ns1.warsaw.practicum.os3.nl. 600 IN	A	145.100.104.62
+derby.practicum.os3.nl.	600	IN	A	145.100.104.165
+ns1.warsaw.practicum.os3.nl. 600 IN	RRSIG	A 8 5 600 20161212121212 20150105155745 55680 warsaw.practicum.os3.nl. tnqJ9eDOJ+/QVBgs8Ls8ZAnnCqFFi/1VRVTTHE+fyYdb7wlLUTpNM84b assflE5NAK+wznXMS0SWkvcL6pjWHRmcFinAAzkXOgsP98rNvfee7fnU 4vrxLU1ZG2ZXbOre2qlgB5TcPtQtb83fVsaEOE5oD/6QrHB2ys2/ayaK lOurU+SwwoHr2el5pNLIElaKzG8eDLZLuGPNzvLouH76I6lnGx/1pyua MzuTW+Jaw0Ms+eWux9IHiuPuSqRW5tcfLsCbUIjtfJ/TX5zEiOQHhqyI 0t6rgWTUMhlFotq5njE/MA6Ut36I2pLI2Pqc50r6+Fa62qaBizDAN+By bj3Bgw==
+derby.practicum.os3.nl.	600	IN	RRSIG	A 8 4 600 20150212101219 20150113101219 21975 derby.practicum.os3.nl. NQLS3CX7ZnJLXZeakBNn8FPfrZqT4CG5n3bBP2Bp80PsSWh1CknQ8MRp mDVHr3gEPgr9tA/7PlTLtySfVgP1Wi0ZbVunQmPoWo2oS0YbC8zPxPNy 27o2S3iZ9Qhv90LB6ebT5f3qUrzil4DAj7tsa0C5YwNIEQtQ5gdLW9NK vYusyupirMK1jVHA9Qf0O6f+Ex7/zuUiCmoXXml9LxqId7pmP/loclbZ R821zIvBaXv2XuCzIpZLUr2gOrzhHzqYtXVzMJqL81/nnEywLiSADW0C zL6ivcuyyAvDOMROhmkymP2cTFNE2nRLQ4waa6hvmX2DNBxx1MSmIzz9 989SYg==
+derby.practicum.os3.nl.	600	IN	RRSIG	A 8 4 600 20150212101219 20150113101219 53271 derby.practicum.os3.nl. arhaFVhRgVjRZSKPiwX4hSmE3TkDDAq9xz0cYVD6O3LP5TjE1DVu9jKA oEFDzC+qYc0sHhw1BpBZ7/TxfcQsj2mTtguYQ+66uGkVJj0tKFTUtvuq NHSZIWCN7nnD8T+SCmCCcyVtIIwUuI4ZEDnG/0cDE111WSOIkRoZsUtp e5oHaPbRgZ6/tG1uDKJX5TUg7fIceFoQ17o4AfiVchKBJ7J7zgDp5RsM wr6j8Vbad3x0hi3SYV9LPflGuuHCVPZrJRpsLdcYZrpoOL04Tne14iLY 8SZwj04d3If67FSizUbFzWqvj4Y+XCd84WBnRHTI6FB+T3W+0pQgnaIt 2s2bNA==
+
+;; Query time: 8 msec
+;; SERVER: 145.100.104.165#53(145.100.104.165)
+;; WHEN: Tue Jan 13 18:42:17 2015
+;; MSG SIZE  rcvd: 1673
+
+dream-machine:rp1 martin2$ dig +dnssec .de  @ns1.warsaw.practicum.os3.nl
+dig: '.de' is not a legal name (empty label)
+dream-machine:rp1 martin2$ dig +dnssec de.  @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec de. @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6890
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;de.				IN	A
+
+;; AUTHORITY SECTION:
+de.			7200	IN	SOA	f.nic.de. its.denic.de. 2015011369 7200 7200 3600000 7200
+de.			7200	IN	RRSIG	SOA 8 1 86400 20150120150000 20150113150000 8821 de. znQ1ULUYZY27AGdXjnYd8SEOFKtkGO9mXT4dZBinBTpGXUhpZ8L7r9xv UDlIH8fR/N9Ch6RuhgKRXrO1Z6VaPN4+MjIJ5ih5KCuiagulyqisy8mo 54ilVTTlidfugWaAB28ud6w5rYqbc7xLwO7kwjxiVmkHFJjO9taE/R9/ STY=
+H319DM5GC3EDEK691VQBHEHOT7VGGJ2B.de. 7200 IN RRSIG NSEC3 8 2 7200 20150120150000 20150113150000 8821 de. UHPiefLsVbrwf97mlLyqLUelXAm/jF4ZWwXKaxa6aydRTSBBvPNq5Ey/ gvX9vVPELJ3X108y8HNsLI5xTFm61ECUHaQLy/29DyFGUVoVWnP/ub2k fo+pyi1vM25jfwl2J/brxbIS1M3QB8q9Y5sfg7VL+0MRYtHxaRHqXjAr cEQ=
+H319DM5GC3EDEK691VQBHEHOT7VGGJ2B.de. 7200 IN NSEC3 1 1 15 BA5EBA11 H31BJ3G4QCC5ICBKQH14CB2K8KTQICPL NS SOA RRSIG DNSKEY NSEC3PARAM
+
+;; Query time: 56 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 19:13:10 2015
+;; MSG SIZE  rcvd: 491
+
+dream-machine:rp1 martin2$ dig +dnssec surfnet.nl  @ns1.warsaw.practicum.os3.nl
+
+; <<>> DiG 9.8.3-P1 <<>> +dnssec surfnet.nl @ns1.warsaw.practicum.os3.nl
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12405
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;surfnet.nl.			IN	A
+
+;; ANSWER SECTION:
+surfnet.nl.		3600	IN	A	85.17.2.26
+surfnet.nl.		3600	IN	RRSIG	A 8 2 3600 20150119213146 20150105191828 40498 surfnet.nl. j6Y30pcdB4eY+3+8xm/K7q5BZza5HmOKYCXgNPzw6n5JAHDu/WIwkhLm ndHUdRovozCmltkf3NYdAvQDGoXE+tW5yIVXriEW5/Lt1yVZ5sZPAS4i SaI8C/ch47+RjbLC8gKH7pDtt1g5MFxc3aaRmdRSlnAXFALE72bLoiey zeQ=
+
+;; Query time: 409 msec
+;; SERVER: 145.100.104.62#53(145.100.104.62)
+;; WHEN: Tue Jan 13 19:14:17 2015
+;; MSG SIZE  rcvd: 225

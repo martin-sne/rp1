@@ -1,0 +1,101 @@
++--arpa2experimentaldnssecMIBv1(1)
+   |
+   +--dnssecObjects(1)
+   |  |
+   |  +--dnssecGeneral(1)
+   |  |  |
+   |  |  +-- -R-- Unsigned  dnssecZoneCount(1)
+   |  |           Range: 0..4294967295
+   |  |
+   |  +--dnssecZoneGlobal(2)
+   |  |  |
+   |  |  +--dnssecZoneGlobalTable(2)
+   |  |     |
+   |  |     +--dnssecZoneGlobalEntry(1)
+   |  |        |  Index: dnssecZoneGlobalIndex
+   |  |        |
+   |  |        +-- ---- String    dnssecZoneGlobalIndex(1)
+   |  |        |        Textual Convention: DomainOctetString
+   |  |        |        Size: 1..1024
+   |  |        +-- -R-- String    dnssecZoneGlobalOrigin(2)
+   |  |        |        Textual Convention: DomainOctetString
+   |  |        |        Size: 1..1024
+   |  |        +-- -R-- Gauge     dnssecZoneGlobalRecordCount(3)
+   |  |        +-- -R-- Gauge     dnssecZoneGlobalRecordSetCount(4)
+   |  |        +-- -R-- Gauge     dnssecZoneGlobalDelegationCount(5)
+   |  |        +-- -R-- EnumVal   dnssecZoneGlobalDNSKEYSignatureVerification(6)
+   |  |        |        Textual Convention: CustomInteger
+   |  |        |        Values: noerror(1), error(2), unknown(3)
+   |  |        +-- -R-- Gauge     dnssecZoneGlobalAuthNSCount(7)
+   |  |        +-- -R-- String    dnssecZoneGlobalAuthNSAddress(8)
+   |  |        |        Textual Convention: DisplayString
+   |  |        |        Size: 0..255
+   |  |        +-- -R-- String    dnssecZoneGlobalAuthNSName(9)
+   |  |        |        Textual Convention: DomainOctetString
+   |  |        |        Size: 1..1024
+   |  |        +-- -R-- INTEGER   dnssecZoneGlobalMinimumTTL(10)
+   |  |        |        Textual Convention: TimeInterval
+   |  |        |        Range: 0..2147483647
+   |  |        +-- -R-- INTEGER   dnssecZoneGlobalSOATTL(11)
+   |  |        |        Textual Convention: TimeInterval
+   |  |        |        Range: 0..2147483647
+   |  |        +-- -R-- String    dnssecZoneGlobalSOA(12)
+   |  |                 Textual Convention: DisplayString
+   |  |                 Size: 0..255
+   |  |
+   |  +--dnssecZoneAuthNS(3)
+   |  |  |
+   |  |  +--dnssecZoneAuthNSTable(3)
+   |  |     |
+   |  |     +--dnssecZoneAuthNSEntry(1)
+   |  |        |  Index: dnssecZoneGlobalIndex, dnssecZoneAuthNSIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecZoneAuthNSIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- String    dnssecZoneAuthNSName(2)
+   |  |                 Textual Convention: DomainOctetString
+   |  |                 Size: 1..1024
+   |  |
+   |  +--dnssecZoneSig(4)
+   |  |  |
+   |  |  +--dnssecZoneSigTable(4)
+   |  |     |
+   |  |     +--dnssecZoneSigEntry(1)
+   |  |        |  Index: dnssecZoneGlobalIndex, dnssecZoneSigIndex
+   |  |        |
+   |  |        +-- ---- Unsigned  dnssecZoneSigIndex(1)
+   |  |        |        Range: 1..4294967295
+   |  |        +-- -R-- String    dnssecZoneSigOldestSignatureTime(2)
+   |  |        |        Textual Convention: DisplayString
+   |  |        |        Size: 0..255
+   |  |        +-- -R-- String    dnssecZoneSigSOASignatureExpirationTime(3)
+   |  |        |        Textual Convention: DisplayString
+   |  |        |        Size: 0..255
+   |  |        +-- -R-- String    dnssecZoneSigNSSignatureExpirationTime(4)
+   |  |        |        Textual Convention: DisplayString
+   |  |        |        Size: 0..255
+   |  |        +-- -R-- String    dnssecZoneSigDNSKEYSignatureExpirationTime(5)
+   |  |                 Textual Convention: DisplayString
+   |  |                 Size: 0..255
+   |  |
+   |  +--dnssecZoneDiff(5)
+   |     |
+   |     +--dnssecZoneDiffTable(5)
+   |        |
+   |        +--dnssecZoneDiffEntry(1)
+   |           |  Index: dnssecZoneGlobalIndex, dnssecZoneAuthNSIndex, dnssecZoneDiffIndex
+   |           |
+   |           +-- ---- Unsigned  dnssecZoneDiffIndex(1)
+   |           |        Range: 1..4294967295
+   |           +-- -R-- EnumVal   dnssecZoneDiffSerial(2)
+   |                    Textual Convention: CustomInteger
+   |                    Values: noerror(1), error(2), unknown(3)
+   |
+   +--dnssecMIBConformance(2)
+      |
+      +--dnssecMIBGroups(1)
+      |  |
+      |  +--dnssecMIBScalarGroup(1)
+      |  +--dnssecMIBTableGroup(2)
+      |
+      +--dnssecMIBCompliances(2)

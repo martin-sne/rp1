@@ -1,0 +1,1 @@
+dnssec-signzone -Q -R -3 0ac3c5c723bac6b2  -e 20161212121212 -o warsaw.practicum.os3.nl -k Kwarsaw.practicum.os3.nl.ksk.key -f warsaw.practicum.os3.nl.signed ./warsaw.practicum.os3.nl.signed Kwarsaw.practicum.os3.nl.+008+55680.key

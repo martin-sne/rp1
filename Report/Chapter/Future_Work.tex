@@ -1,0 +1,9 @@
+\section{Future work}
+\label{chap:future-work}
+Due to the lack of time, our proof of concept is unfortunately not complete and can be improved. Indeed, our MIB module could deliver more DNSSEC variables. For instance, we could include:
+\begin{itemize}
+\item The validation of the NSEC/NSEC3 chain.
+\item The validation of all the RRSIGs against the published ZSK and return the number of invalidated RRSIGs.
+\item The validation of the DS record in the parent zone against the published KSK of the corresponding child zone.
+\end{itemize} 
+Moreover, as we do not use the Punycode algorithm, international domain names are not handled by the MIB module. In addition, notifications (so-called SNMP trap) are not implemented. This feature is not available in the \textit{python-netsnmpagent} module yet and the amount of time allowed for the project was too short for us to develop it. Finally, our Python scripts for retrieving DNSSEC data lack of exception handling. 

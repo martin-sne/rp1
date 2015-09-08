@@ -1,0 +1,8 @@
+\subsection{Overview}
+\label{section:overview}
+Developing an SNMP based prototype to monitor DNSSEC relevant data requires to implement several components that collaborate with each other. During the implementation of those component one focus was to use programming libraries to get DNSSEC related data, rather than using existing external tools (e.g. dig \cite{dig} or validns \cite{validns}). That makes the prototype as independent as possible and thus enables simple integration in existing infrastructures. 
+\\
+The main component of the prototype is the SNMP MIB module that has been created to cover DNSSEC critical data. Another important component is the SNMP subagent that has been partly developed during the research project. 
+The underlying SNMP implementation for the subagent is based on the NET-SNMP toolkit \cite{net-snmp}. It includes applications (snmpget, snmpwalk, etc) to retrieve SNMP data from an agent. Moreover it provides libraries and programming language APIs to allow implementing own sub agents. 
+The subagent is written in Python communicates via AgentX \cite{agentx} protocol to the NET-SNMP master agent. The decision to implement an AgentX subagent is based on the fact that it simplifies the handling of SNMP protocol specific details, such as SNMP variable registration. The subagent itself is filled with data by sotftware components that collect information from authoritative name servers serving DNSSEC enabled zones. To be more precise, those software components are data wrapper scripts that make use of the dnspython \cite{dnspython} library.
+

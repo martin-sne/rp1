@@ -1,0 +1,477 @@
+ARPA2-Experimental-DNSSEC-MIBv1 DEFINITIONS ::= BEGIN
+
+-- Imports
+
+IMPORTS
+	MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+	Integer32, Unsigned32, Gauge32, enterprises
+		FROM SNMPv2-SMI
+	TEXTUAL-CONVENTION, DisplayString, TimeInterval
+		FROM SNMPv2-TC
+	OBJECT-GROUP
+		FROM SNMPv2-CONF;
+
+-- Description and update information
+
+arpa2experimentaldnssecMIBv1 MODULE-IDENTITY
+	LAST-UPDATED "201501271633Z"
+	ORGANIZATION "UvA SNE"
+	CONTACT-INFO
+			"Author: Martin Leucht
+			EMail: <martin.leucht@os3.nl>
+			
+      Author: Julien Nyczak
+      EMail: <julien.nyczak@os3.nl>
+      "
+
+	DESCRIPTION
+		"This file defines private DNSSEC MIB extensions 
+     and was developed during a research project for the
+     Master programme in System and Network Engineering at
+     the University of Amsterdam. 
+     This MIB is a subbranch of of the ARPA2 OID tree.
+     See http://oid.arpa2.org/ for more details"
+
+	REVISION "201501201630Z"
+	DESCRIPTION
+		"ML: Textual Conventions"
+  REVISION "201501271630Z"
+  DESCRIPTION
+    "ML: Added dnssecZoneGlobalServFail variable to  dnssecZoneGlobalTable"  
+  ::= { arpa2experimentaldnssecsnmp 1 }
+
+
+-- path to .1.3.6.1.4.1.44469.666.53.46.161
+
+arpa2                           OBJECT IDENTIFIER ::= { enterprises 44469 }
+arpa2experimental               OBJECT IDENTIFIER ::= { arpa2 666 }
+arpa2experimentaldns            OBJECT IDENTIFIER ::= { arpa2experimental 53 }
+arpa2experimentaldnssec         OBJECT IDENTIFIER ::= { arpa2experimentaldns 46 }
+arpa2experimentaldnssecsnmp     OBJECT IDENTIFIER ::= { arpa2experimentaldnssec 161 }
+
+
+-- Definition of MIB's root nodes
+
+
+ dnssecObjects OBJECT IDENTIFIER      		::= { arpa2experimentaldnssecMIBv1 1 }
+ dnssecMIBConformance OBJECT IDENTIFIER 	::= { arpa2experimentaldnssecMIBv1 2 }
+ dnssecGeneral OBJECT IDENTIFIER      		::= { dnssecObjects 1 }
+ dnssecZoneGlobal OBJECT IDENTIFIER   		::= { dnssecObjects 2 }
+ dnssecZoneAuthNS OBJECT IDENTIFIER       ::= { dnssecObjects 3 }
+ dnssecZoneSig OBJECT IDENTIFIER          ::= { dnssecObjects 4 }
+ dnssecZoneDiff OBJECT IDENTIFIER         ::= { dnssecObjects 5 }
+
+
+-- Textual Conventions
+
+DomainOctetString ::= TEXTUAL-CONVENTION
+    DISPLAY-HINT    "1024t"
+    STATUS          current
+    DESCRIPTION
+        "An octet string containing characters in UTF-8 encoding."
+    SYNTAX          OCTET STRING (SIZE (1..1024))
+
+
+CustomInteger ::= TEXTUAL-CONVENTION
+    STATUS        current
+    DESCRIPTION   
+      "Convention of return values for Integer variables."
+    SYNTAX        INTEGER { noerror(1), error(2), unknown(3) }
+
+-- End Textual conventions
+
+-- DNSSEC MIB
+
+-- Top level objects
+
+dnssecZoneCount OBJECT-TYPE
+ SYNTAX      Unsigned32 (0..4294967295)
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "The total number of DNS(Sec) zones covered by that MIB."
+ ::= { dnssecGeneral 1 }
+
+-- dnssecZoneGlobalTable 
+
+dnssecZoneGlobalTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneGlobalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "A table containg global information of DNS and DNSSEC enabled zones."
+   ::= { dnssecZoneGlobal 2 }
+
+dnssecZoneGlobalEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneGlobalEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "An entry containing elements of 
+     global information of DNS(Sec) zones."
+  INDEX { dnssecZoneGlobalIndex }
+  ::= { dnssecZoneGlobalTable 1 }
+
+ DnssecZoneGlobalEntry ::= SEQUENCE {
+          dnssecZoneGlobalIndex          		            DomainOctetString,
+          dnssecZoneGlobalServFail                      CustomInteger,
+          dnssecZoneGlobalOrigin                        DomainOctetString,
+          dnssecZoneGlobalRecordCount  		              Gauge32,
+          dnssecZoneGlobalUniqueNameCount 	              Gauge32, 
+          dnssecZoneGlobalDelegationCount	              Gauge32,
+          dnssecZoneGlobalDSpresent                     CustomInteger,
+          dnssecZoneGlobalDNSKEYSignatureVerification   CustomInteger,
+	        dnssecZoneGlobalAuthNSCount                   Gauge32,
+          dnssecZoneGlobalAuthNSAddress                 DisplayString,
+          dnssecZoneGlobalAuthNSName                    DomainOctetString,
+          dnssecZoneGlobalMinimumTTL                    TimeInterval,
+          dnssecZoneGlobalMaximumTTL                    TimeInterval,
+          dnssecZoneGlobalSOATTL                        TimeInterval,
+          dnssecZoneGlobalSOA                           DisplayString}
+
+
+ dnssecZoneGlobalIndex OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Reference index for each observed zone"
+   ::= { dnssecZoneGlobalEntry 1 }
+
+ dnssecZoneGlobalServFail OBJECT-TYPE
+   SYNTAX       CustomInteger
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if the local default DNSSEC aware resolver (dns.resolver.get_default_resolver()) can validate  the NS resource record (dns.rdatatype.NS) and the corresponding A record for that zone.
+If set to error(2) a DNSSEC issue occured (e.g. signature expiration of the NS resource record at the zone apex) and a DNSSEC aware resolver will return as response code a SERVFAIL without data.
+All other variables in that MIB depend on the result of that variable and in case of an error (error(2)) the agent will try to use a static configured authoritative namserver for that zone instead.
+An authoritative nameserver will always serve response to DNSSEC queries or AXFR queries, even if the signatures of the NS record for that zone has expired
+If set to noerror(1) validation of the NS resource record  and the corresponding A record for that zone succeeded."
+   ::= { dnssecZoneGlobalEntry 2 }
+
+ dnssecZoneGlobalOrigin OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Specifies the starting point (zone.origin) for the zone in the DNS hierarchy. That value is also known as $ORIGIN directive in the popular BIND name server software. Data is fetched by an XFR request to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 3 }
+ 
+dnssecZoneGlobalRecordCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents the number of resource records present in that zone. Data is fetched by an XFR request to one of the authoritative servers."
+   ::= { dnssecZoneGlobalEntry 4 }
+
+
+dnssecZoneGlobalUniqueNameCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents the number of resource records associated to a unique owner name observed in that zone. A unique name differs from a resource record set (RRset) which defines  resource records of the same type.This value is an indicator for the amount of RRset's present in that zone. If dnssecZoneGlobalRecordCount is high compared to dnssecZoneGlobalUniqueNames, the number of RRset's is high too. Data is fetched by an XFR request to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 5 }
+
+dnssecZoneGlobalDelegationCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents the number of point of delegations present for that zone. A delegation point resides at the zone apex and is used to describe the NS RRs in the parent that delegate a zone of subdomain. Data is fetched by an XFR request to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 6 }
+
+dnssecZoneGlobalDSpresent OBJECT-TYPE
+   SYNTAX       CustomInteger
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if the amount of delegation signer RRs (DS) observed for that zone is equal to the number of dnssecZoneGlobalDelegationCount. If equal then dnssecZoneGlobalDSpresent is set to noerror(1) otherwise it is set to error(2). Data is fetched by an XFR request to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 7 }
+
+dnssecZoneGlobalDNSKEYSignatureVerification OBJECT-TYPE
+   SYNTAX       CustomInteger
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if a valid (and not expired) DNSSEC selfsigned DNSKEY for that zone exists (dns.dnssec.validate()). If set to noerror(1) validation of the RRSIG of the succeeded, otherwise error(2) is returned. Test is performed  by querying the DNSKEY resource record set for the zone with the DO bit set, and validating the RRSIG record of the DNSKEY resource record against the proposed DNSKEY resource record.
+     Limitation: Only if exactly two DNSKEY's (ZSK,KSK) are present in that zone"
+   ::= { dnssecZoneGlobalEntry 8 }
+
+
+dnssecZoneGlobalAuthNSCount OBJECT-TYPE
+ SYNTAX      Gauge32
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Represents the number of authoritative servers (NS RR) for that zone. Data is fetched by a NS RR query to one of the authoritative servers of that zone."
+ ::= { dnssecZoneGlobalEntry 9 }
+
+dnssecZoneGlobalAuthNSAddress OBJECT-TYPE
+   SYNTAX       DisplayString
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents (one of) the IPAddress(es) of the nameserver (NS) authority for that zone. This data is used for all authoritative queries and XFR queries in that MIB, if dnssecZoneGlobalServFail is set to noerror(1). Data is fetched by a NS RR query (and subsequently processing of the authority section of the query) to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 10 }
+
+dnssecZoneGlobalAuthNSName OBJECT-TYPE
+  SYNTAX       DomainOctetString
+  MAX-ACCESS   read-only
+  STATUS       current
+  DESCRIPTION
+    "Represents (one of) the fully qualified domain name (FQDN) of the nameserver (NS) authority for that zone. Data is fetched by a NS RR query to one of the authoritative servers of that zone."
+   ::= { dnssecZoneGlobalEntry 11 }
+
+dnssecZoneGlobalMinimumTTL OBJECT-TYPE
+ SYNTAX      TimeInterval
+ UNITS       "seconds"
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Represents the minimum Time To Live (TTL) value in secods for a RR observed for that zone. That value can be helpful to calculate signing timing policies to avoid caching of expired or invalid RRSIG RRs in resolvers or during DNSSEC keyrollovers to calculate when a new KSK DNSKEY RRset can be published. Data is fetched by an XFR request to one of the authoritative servers."
+ ::= { dnssecZoneGlobalEntry 12 }
+
+
+dnssecZoneGlobalMaximumTTL OBJECT-TYPE
+ SYNTAX      TimeInterval
+ UNITS       "seconds"
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Represents the maximum Time To Live (TTL) value in secods for a RR observed for that zone. That value can be helpful to calculate signing timing policies to avoid caching of expired or invalid RRSIG RRs in resolvers or during DNSSEC keyrollovers to calculate when a new KSK DNSKEY RRset can be published. Data is fetched by an XFR request to one of the authoritative servers."
+ ::= { dnssecZoneGlobalEntry 13 }
+
+dnssecZoneGlobalSOATTL OBJECT-TYPE
+ SYNTAX      TimeInterval
+ UNITS       "seconds"
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Represents the Time To Live value in seconds (TTL) of the Start of Authority (SOA) RR. That value can be helpful to calculate signing timing policies to avoid caching of expired or invalid RRSIG RRs in resolvers or during DNSSEC keyrollovers to calculate whwn a new KSK DNSKEY RRset can be published. Data is fetched by a SOA RR query to one of the authoritative servers of that zone."
+ ::= { dnssecZoneGlobalEntry 14 }
+
+dnssecZoneGlobalSOA OBJECT-TYPE
+ SYNTAX      DisplayString
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Represents the Start of Authority (SOA) RR for that zone. Data is fetched by a SOA RR query to one of the authoritative servers of that zone."
+ ::= { dnssecZoneGlobalEntry 15 }
+
+-- dnssecZoneAuthNSTable
+
+dnssecZoneAuthNSTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneAuthNSEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "A table containg the authoritative 
+      name server names of a zone."     
+   ::= { dnssecZoneAuthNS 3 }
+
+dnssecZoneAuthNSEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneAuthNSEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "An entry containing elements of 
+      authoritative name servers."
+   INDEX { dnssecZoneGlobalIndex }
+   ::= { dnssecZoneAuthNSTable 1 }
+
+DnssecZoneAuthNSEntry ::= SEQUENCE {
+          dnssecZoneGlobalIndex                 DomainOctetString,
+          dnssecZoneAuthNSName                  DomainOctetString}
+
+dnssecZoneGlobalIndex OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Reference index for each observed zone"
+   ::= { dnssecZoneAuthNSEntry 1 }
+
+dnssecZoneAuthNSName OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents a list of authoritative name servers observed at the zone apex. Data is fetched by a NS RR query to one of the authoritative servers of that zone."
+   ::= { dnssecZoneAuthNSEntry 2 }
+
+
+--  dnssecZoneSigTable
+
+dnssecZoneSigTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneSigEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "A table containg information 
+      about signatures of a zone."
+   ::= { dnssecZoneSig 4 }
+
+dnssecZoneSigEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneSigEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "An entry containing elements of 
+      signatures associated to a zones."
+
+   INDEX { dnssecZoneGlobalIndex }
+   ::= { dnssecZoneSigTable 1 }
+
+DnssecZoneSigEntry ::= SEQUENCE {
+  dnssecZoneGlobalIndex          		DomainOctetString,
+  dnssecZoneSigOldestSignatureTime             	DisplayString,
+  dnssecZoneSigSOASignatureExpirationTime       DisplayString,
+  dnssecZoneSigNSSignatureExpirationTime        DisplayString,
+  dnssecZoneSigDNSKEYSignatureExpirationTime    DisplayString}
+
+
+dnssecZoneGlobalIndex OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Reference index for each observed zone"
+   ::= { dnssecZoneSigEntry 1 }
+
+dnssecZoneSigOldestSignatureTime OBJECT-TYPE
+   SYNTAX       DisplayString
+   UNITS       "seconds"
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents the oldest inception date observed for all RRSIG records in that zone. This value can be helpful to determine signatire expiration issues in that zone. Data is fetched by an XFR request to one of the authoritative servers of that zone."
+   ::= { dnssecZoneSigEntry 2 }
+
+
+dnssecZoneSigSOASignatureExpirationTime OBJECT-TYPE
+   SYNTAX       DisplayString
+   UNITS       "seconds"
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents the expiration time of the Start of Authority (SOA) RRSIG RR for that zone. This value can be helpful to determine signatire expiration issues for resource records at the apex of that zone.
+      Data is fetched by an XFR request to one of the authoritative servers."
+   ::= { dnssecZoneSigEntry 3 }
+
+dnssecZoneSigNSSignatureExpirationTime OBJECT-TYPE
+   SYNTAX       DisplayString
+   UNITS       "seconds"
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents a list of the expiration time(s) of the name server(s) (NS) RRSIG RR(s) for that zone. This value can be helpful to determine signatire expiration issues for RRSIG resource records at the apex of that zone. Data is fetched by an XFR request to one of the authoritative servers for that zone."
+   ::= { dnssecZoneSigEntry 4 }
+
+dnssecZoneSigDNSKEYSignatureExpirationTime OBJECT-TYPE
+   SYNTAX       DisplayString
+   UNITS       "seconds"
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents a list of the expiration time(s) of the DNSKEY RRSIG RR(s) for that zone. This value can be helpful to determine signature expiration issues related to the ZSK and KSK records at that zone. Data is fetched by an XFR request to one of the authoritative servers for that zone."
+   ::= { dnssecZoneSigEntry 5 }
+
+
+--  dnssecZoneDiffTable
+
+dnssecZoneDiffTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneDiffEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "A table containg textual differences of 
+     resource records between a master and a slave DNS server."
+   ::= { dnssecZoneDiff  5 }
+
+dnssecZoneDiffEntry  OBJECT-TYPE
+  SYNTAX      DnssecZoneDiffEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "An entry containing difference(s) observed in 
+      resource records between a master and slave DNS server."
+   INDEX { dnssecZoneGlobalIndex }
+   ::= { dnssecZoneDiffTable 1 }
+
+DnssecZoneDiffEntry ::= SEQUENCE {
+          dnssecZoneGlobalIndex          	DomainOctetString,
+          dnssecZoneDiffSerial                  CustomInteger
+          }
+
+dnssecZoneGlobalIndex OBJECT-TYPE
+   SYNTAX       DomainOctetString
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Reference index for each observed zone"
+   ::= { dnssecZoneDiffEntry 1 }
+
+dnssecZoneDiffSerial OBJECT-TYPE
+   SYNTAX       CustomInteger
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Represents differences between Start of Authority (SOA) serial numbers between master and slave name servers. This value can be helpful to avoid XFR issues between master and slave servers. E.g a slave has a higher serial number than the master  authortitative server, the slave will never request an XFR to update its zone. This can have a serious impact if the Key Signing Key (KSK) RR differs and in turn the RRSIG RR of all DNSKEYs are signed differntly on master and slave servers. Data is fetched by an XFR request to all oserved authoritative servers of that zone.
+     Limitation: Only if one or two authoritative servers are observed of that zone."
+   ::= { dnssecZoneDiffEntry  2 }
+
+
+
+-- Conformance Statements for DNSSEC
+
+
+dnssecMIBGroups       OBJECT IDENTIFIER   ::= { dnssecMIBConformance 1 }
+dnssecMIBCompliances  OBJECT IDENTIFIER   ::= { dnssecMIBConformance 2 }
+
+dnssecMIBScalarGroup OBJECT-GROUP
+  OBJECTS {
+      dnssecZoneCount
+         }
+  STATUS      current
+  DESCRIPTION
+     "All accessible scalar objects in that MIB.
+     "
+  ::= { dnssecMIBGroups 1 }
+
+
+dnssecMIBTableGroup OBJECT-GROUP
+  OBJECTS {
+  dnssecZoneGlobalServFail,
+	dnssecZoneGlobalOrigin,
+	dnssecZoneGlobalRecordCount,
+	dnssecZoneGlobalUniqueNameCount,
+	dnssecZoneGlobalDelegationCount,
+  dnssecZoneGlobalDSpresent,
+	dnssecZoneGlobalDNSKEYSignatureVerification,
+	dnssecZoneGlobalAuthNSCount,
+  dnssecZoneGlobalAuthNSAddress,
+  dnssecZoneGlobalAuthNSName,
+  dnssecZoneGlobalMinimumTTL,
+  dnssecZoneGlobalMaximumTTL,
+  dnssecZoneGlobalSOATTL,
+  dnssecZoneGlobalSOA,
+	dnssecZoneAuthNSName,
+	dnssecZoneSigOldestSignatureTime,
+	dnssecZoneSigSOASignatureExpirationTime,
+  dnssecZoneSigNSSignatureExpirationTime,
+  dnssecZoneSigDNSKEYSignatureExpirationTime,
+	dnssecZoneDiffSerial
+	}
+
+  STATUS      current
+  DESCRIPTION
+     "All accessible table objects in that MIB.
+     "
+  ::= { dnssecMIBGroups 2 }
+
+END
+
+

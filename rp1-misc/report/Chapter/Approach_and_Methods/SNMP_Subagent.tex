@@ -1,0 +1,8 @@
+\subsection{SNMP Subagent}
+\label{section:sub-agent}
+The underlying SNMP implementation for the subagent is based on the NET-SNMP toolkit \cite{net-snmp}. It includes applications (snmpget, snmpwalk, etc) to retrieve SNMP data from an agent. Moreover it provides libraries and programming language APIs to allow implementing own sub agents. The subagent communicates via unix socket with the NET-SNMP master agent by using  the AgentX protocol \cite{agentx-netsnmp}.
+\\
+As mentioned in Chapter \ref{chap:introduction}, we make use of the Python NET-SNMP API module \textit{netsnmpagent} \cite{pythonnetsnmpagent} to implement our subagent. It allows to access the NET-SNMP C-API, imitating AgentX subagents written in C. It is capable of most SNMP data types (Gauge, Counter, Integer, OCTET-STRING, etc). The subagent handles requests for the DNSSEC MIB OIDs initiated by the master agent. It allows to register, update and clear table rows and scalar values. Data for the subagent is provided by two Python wrapper scripts that make use of the dnspython \cite{dnspython} library to retrieve DNS and DNSSEC related data.. 
+
+
+

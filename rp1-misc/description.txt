@@ -1,0 +1,88 @@
+#dnssecZoneGlobalServFail
+
+Indicates if the local default DNSSEC aware resolver (dns.resolver.get_default_resolver()) can validate  the NS resource record (dns.rdatatype.NS) and the corresponding A record for that zone.
+If set to error(2) a DNSSEC issue occured (e.g. signature expiration of the NS resource record at the zone apex) and a DNSSEC aware resolver will return as response code a SERVFAIL without data.
+All other variables in that MIB depend on the result of that variable and in case of an error (error(2)) the agent will try to use a static configured authoritative namserver for that zone instead.
+An authoritative nameserver will always serve response to DNSSEC queries or AXFR queries, even if the signatures of the NS record for that zone has expired
+If set to noerror(1) validation of the NS resource record  and the corresponding A record for that zone succeeded.
+
+
+#dnssecZoneGlobalOrigin
+
+Specifies the starting point (zone.origin) for the zone in the DNS hierarchy. That value is also known as $ORIGIN directive in the popular BIND name server software. Data is fetched by an XFR request to one of the authoritative servers of that zone.
+
+#dnssecZoneGlobalRecordCount
+
+Represents the number of resource records present in that zone. Data is fetched by an XFR request to one of the authoritative servers.
+
+#dnssecZoneGlobalUniqueNames
+
+Represents the number of resource records associated to a unique owner name observed in that zone. A unique name differs from a resource record set (RRset) which defines  resource records of the same type.This value is an indicator for the amount of RRset's present in that zone. If dnssecZoneGlobalRecordCount is high compared to dnssecZoneGlobalUniqueNames, the number of RRset's is high too. Data is fetched by an XFR request to one of the authoritative servers of that zone.
+
+
+#dnssecZoneGlobalDelegationCount
+
+Represents the number of point of delegations present for that zone. A delegation point resides at the zone apex and is used to describe the NS RRs in the parent that delegate a zone of subdomain. Data is fetched by an XFR request to one of the authoritative servers of that zone.
+
+#dnssecZoneGlobalDSpresent
+
+Indicates if the amount of delegation signer RRs (DS) observed for that zone is equal to the number of dnssecZoneGlobalDelegationCount. If equal then dnssecZoneGlobalDSpresent is set to noerror(1) otherwise it is set to error(2). Data is fetched by an XFR request to one of the authoritative servers of that zone.
+
+#dnssecZoneGlobalDNSKEYSignatureVerification  
+
+Indicates if a valid (and not expired) DNSSEC selfsigned DNSKEY for that zone exists (dns.dnssec.validate()). If set to noerror(1) validation of the RRSIG of the succeeded, otherwise error(2) is returned.
+Test is performed  by querying the DNSKEY resource record set for the zone with the DO bit set, and validating the RRSIG record of the DNSKEY resource record against the proposed DNSKEY resource record.
+
+Limitation: Only if exactly two DNSKEY's (ZSK,KSK) are present in that zone
+
+
+#dnssecZoneGlobalAuthNSCount
+
+Represents the number of authoritative servers (NS RR) for that zone. Data is fetched by a NS RR query to one of the authoritative servers of that zone.
+
+
+# dnssecZoneGlobalAuthNSName
+
+Represents (one of) the fully qualified domain name (FQDN) of the nameserver (NS) authority for that zone. Data is fetched by a NS RR query to one of the authoritative servers of that zone.
+
+#dnssecZoneGlobalAuthNSAddress
+
+Represents (one of) the IPAddress(es) of the nameserver (NS) authority for that zone. This data is used for all authoritative queries and XFR queries in that MIB, if dnssecZoneGlobalServFail is set to noerror(1). Data is fetched by a NS RR query (and subsequently processing of the authority section of the query) to one of the authoritative servers of that zone.
+
+#dnssecZoneGlobalMinimumTTL
+
+Represents the minimum Time To Live (TTL) value in secods for a RR observed for that zone. That value can be helpful to calculate signing timing policies to avoid caching of expired or invalid RRSIG RRs in resolvers or during DNSSEC keyrollovers to calculate when a new KSK DNSKEY RRset can be published. Data is fetched by an XFR request to one of the authoritative servers.
+
+#dnssecZoneGlobalSOATTL
+
+Represents the Time To Live value in seconds (TTL) of the Start of Authority (SOA) RR. That value can be helpful to calculate signing timing policies to avoid caching of expired or invalid RRSIG RRs in resolvers or during DNSSEC keyrollovers to calculate whwn a new KSK DNSKEY RRset can be published. Data is fetched by a SOA RR query to one of the authoritative servers of that zone.
+
+# dnssecZoneGlobalSOA
+
+Represents the Start of Authority (SOA) RR for that zone. Data is fetched by a SOA RR query to one of the authoritative servers of that zone.
+
+# dnssecZoneAuthNSName
+
+Represents a list of authoritative name servers observed at the zone apex. Data is fetched by a NS RR query to one of the authoritative servers of that zone.  
+
+# dnssecZoneSigOldestSignatureTime
+
+Represents the oldest inception date observed for all RRSIG records in that zone. This value can be helpful to determine signatire expiration issues in that zone. Data is fetched by an XFR request to one of the authoritative servers of that zone.
+
+#dnssecZoneSigSOASignatureExpirationTime
+
+Represents the expiration time of the Start of Authority (SOA) RRSIG RR for that zone. This value can be helpful to determine signatire expiration issues for resource records at the apex of that zone.
+Data is fetched by an XFR request to one of the authoritative servers.
+
+#dnssecZoneSigNSSignatureExpirationTime
+
+Represents a list of the expiration time(s) of the name server(s) (NS) RRSIG RR(s) for that zone. This value can be helpful to determine signatire expiration issues for RRSIG resource records at the apex of that zone. Data is fetched by an XFR request to one of the authoritative servers for that zone.
+
+# dnssecZoneSigDNSKEYSignatureExpirationTime
+
+Represents a list of the expiration time(s) of the DNSKEY RRSIG RR(s) for that zone. This value can be helpful to determine signature expiration issues related to the ZSK and KSK records at that zone. Data is fetched by an XFR request to one of the authoritative servers for that zone.
+
+# dnssecZoneDiffSerial
+
+Represents differences between Start of Authority (SOA) serial numbers between master and slave name servers. This value can be helpful to avoid XFR issues between master and slave servers. E.g a slave has a higher serial number than the master  authortitative server, the slave will never request an XFR to update its zone. This can have a serious impact if the Key Signing Key (KSK) RR differs and in turn the RRSIG RR of all DNSKEYs are signed differntly on master and slave servers. Data is fetched by an XFR request to all oserved authoritative servers of that zone.
+Limitation: Only if one or two authoritative servers are observed of that zone.

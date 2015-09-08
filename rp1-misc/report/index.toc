@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {subsection}{\numberline {1.1}Related Work}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Research Questions}{4}{subsection.1.2}
+\contentsline {section}{\numberline {2}Background}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}SNMP}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}DNSSEC}{5}{subsection.2.2}
+\contentsline {section}{\numberline {3}Approach and Methods}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Overview}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Vital life signs for DNSSEC}{7}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}SNMP MIB design}{8}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}SNMP table indexing}{8}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Data types and textual conventions}{8}{subsubsection.3.3.2}
+\contentsline {section}{\numberline {4}Results}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Data collection}{9}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}General data structure}{9}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Retrieving DNSSEC data}{10}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}DNSSEC SNMP MIB implementation}{11}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}General overview}{11}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Data covered by the MIB}{12}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Usage of textual conventions and table indexing}{15}{subsubsection.4.2.3}
+\contentsline {subsection}{\numberline {4.3}SNMP Subagent implementation}{16}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Conduct DNSSEC monitoring}{18}{subsection.4.4}
+\contentsline {section}{\numberline {5}Conclusion}{19}{section.5}
+\contentsline {section}{\numberline {6}Future work}{19}{section.6}
+\contentsline {section}{Acknowledgement}{19}{section*.2}
+\contentsline {section}{References}{19}{section*.3}
+\contentsline {section}{Appendices}{21}{section*.4}

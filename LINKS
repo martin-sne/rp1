@@ -1,0 +1,48 @@
+# Overview SNMP related RFCs
+http://www.snmp.com/protocol/snmp_rfcs.shtml
+
+#SMIv2
+https://tools.ietf.org/html/rfc2578
+https://tools.ietf.org/html/rfc2579
+
+
+# Python NetSNMPagent (AgentX)
+https://github.com/pief/python-netsnmpagent
+
+# SNMP MIB Stuff
+https://blogs.oracle.com/jmxetc/entry/understanding_the_structure_of_management
+https://blogs.oracle.com/jmxetc/entry/welcome_to_the_snmp_table!
+http://www.snmpinfo.com/tables.pdf
+http://wmunguiam.blogspot.nl/2009/07/howto-use-snmptranslate-command.html
+http://www.net-snmp.org/docs/mibs/agentxMIB.html#agentxMIBCompliance
+http://www.net-snmp.org/docs/mibs/
+http://en.wikipedia.org/wiki/Management_information_base
+http://personal.ee.surrey.ac.uk/Personal/G.Pavlou/Teaching/NSM/help/developer_guide/snmptables_addrow.html
+http://www.cisco.com/c/en/us/support/docs/ip/simple-network-management-protocol-snmp/40700-snmp-ifIndex40700.html
+https://technet.microsoft.com/en-us/library/cc783142%28v=ws.10%29.aspx
+
+# AgentX
+http://www.simpleweb.org/w/images/c/c3/Tutorial_Slides_Agentx.pdf
+
+# MIBS
+http://www.net-snmp.org/docs/mibs/AGENTX-MIB.txt
+http://www.simpleweb.org/ietf/mibs/modules/IETF/txt/DNS-SERVER-MIB
+http://www.net-snmp.org/docs/mibs/agentxMIB.html#agentxMIBCompliance
+http://www.ieee802.org/1/files/public/MIBs/IEEE8021-MSTP-MIB-201208100000Z.txt (uses TruthValue and RowStatus)
+http://www.juniper.net/techpubs/en_US/junos12.1/topics/reference/mibs/mib-jnx-chassis.txt
+http://www.ibr.cs.tu-bs.de/projects/libsmi/tools/tmp/9E5n6j/mibs/DNSSEC-MIB.txt (our MIB!)
+
+# DNSSEC-check tool
+http://yazvs.verisignlabs.com/
+https://github.com/tobez/validns/blob/master/usage.mdwn
+https://github.com/opendnssec/dnssec-monitor
+
+# DNS general
+http://www.iana.nl/assignments/dns-parameters/dns-parameters.xhtml
+http://tools.ietf.org/html/rfc4035
+https://www.iana.org/help/nameserver-requirements
+
+# DNSSEC stuff
+https://www.ietf.org/mail-archive/web/dnsext/current/msg10242.html
+https://grepular.com/Understanding_DNSSEC
+https://lists.dns-oarc.net/pipermail/dns-operations/2009-October/004584.html

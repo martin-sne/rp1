@@ -1,0 +1,209 @@
+Return-Path: <rick@openfortress.nl>
+Received: from imap.os3.nl ([unix socket])
+	 by imap.os3.nl (Cyrus v2.4.12-Debian-2.4.12-2) with LMTPA;
+	 Sat, 07 Feb 2015 13:49:59 +0100
+X-Sieve: CMU Sieve 2.4
+Received: from smtp.os3.nl (smtp.os3.nl [145.100.96.119])
+	by imap.os3.nl (Postfix) with ESMTP id 1D51117B009;
+	Sat,  7 Feb 2015 13:49:59 +0100 (CET)
+Received: by smtp.os3.nl (Postfix, from userid 110)
+	id BD50617B00B; Sat,  7 Feb 2015 13:49:58 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on tummi.os3.nl
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=disabled version=3.3.2
+Received: from lb2-smtp-cloud6.xs4all.net (lb2-smtp-cloud6.xs4all.net [194.109.24.28])
+	by smtp.os3.nl (Postfix) with ESMTPS id 2AF9B17B009;
+	Sat,  7 Feb 2015 13:49:52 +0100 (CET)
+Received: from [10.0.1.214] ([83.161.146.46])
+	by smtp-cloud6.xs4all.net with ESMTP
+	id pRpr1p00710HQrX01RpsAx; Sat, 07 Feb 2015 14:49:52 +0100
+Content-Type: text/plain; charset=windows-1252
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+Subject: Re: OS3 DNSSEC monitoring
+From: Rick van Rein <rick@openfortress.nl>
+In-Reply-To: <54D4DCA3.6030607@os3.nl>
+Date: Sat, 7 Feb 2015 14:49:51 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0BCA7F80-2540-47AF-A6D4-4C12B5E5348F@openfortress.nl>
+References: <608690114.4609471.1417008256441.JavaMail.zimbra@surfnet.nl> <54C7EA8C.1050007@os3.nl> <54C802D1.1000902@os3.nl> <4F552A44-E17C-4A48-B6B1-74D7E886D793@openfortress.nl> <B35EDC9A-C15A-4581-A8C3-51752C1EE42D@openfortress.nl> <54CB5CBD.7050304@os3.nl> <9BDB6927-AB09-4346-8805-66192D5AB0CF@openfortress.nl> <54CB6379.3020703@os3.nl> <5BD7E51D-B255-4A46-9ED1-D1F1F13E712D@openfortress.nl> <54CB8995.4040900@os3.nl> <4DF28076-4695-42DF-8835-6669DCE84D1E@openfortress.nl> <54CF58FC.1000007@os3.nl> <ABF6F495-4A23-4FEC-BBE5-44DF824A05A3@openfortress.nl> <54CF6C38.2020206@os3.nl> <D2DFF3F5-2FFC-4907-B746-59BB026B5D6D@openfortress.nl> <54D4DCA3.6030607@os3.nl>
+To: Martin Leucht <martin.leucht@os3.nl>,
+ Julien Nyczak <Julien.Nyczak@os3.nl>
+X-Mailer: Apple Mail (2.2070.6)
+
+Hi guys,
+
+I had expected this to arrive at 23:59:59 after your question if it =
+could be submitted until midnight :)  Below, I=92m trying to cover as =
+much as possible, to help you achieve the best possible report.  So what =
+follows is very detailed; please don=92t be discouraged by that, it is a =
+sign of interest in your work rather than seeing a lot wrong with it.
+
+After changing the document, could you send me a unified diff of your =
+pdfLaTeX source please?  It=92s easier to process your changes that way. =
+ I=92m fluent in LaTeX anyway=85 you don=92t get a PhD degree without =
+[1] ;-)
+
+	[1] although many have tried, but Word keeps crashing on them =
+when they get halfway their book :-D
+
+The English is pretty good, and probably the best I=92ve seen from OS3 =
+students.  My compliments on that.
+
+Scientific style: The path from vital life signs in 3.2 to their =
+implementation in 4.2 is not clear.  It=92s almost as if they are =
+diffierent stories, with no connecting thoughts.  This is not true of =
+course, but your report isn=92t clear on the connection.  Naturally, 4.2 =
+is based on what is done in the field; it would add to the =
+=93scientificness=94 of the report if you could evaluate what you found =
+against what you state as vital signs in 3.2.
+
+Completeness: I am not always sure about design considerations.  Does a =
+monitoring solution need to run over very large tables, or is the amount =
+of work in fact restricted because not all =93OK=94 RRDATA is mentioned =
+and just the things that are out-of-the-ordinary?  Is the work expected =
+of the monitoring solution in the line of what tools like Nagios et al =
+do, notably does it not require complex computations and/or comparisons =
+between otherwise unrelated objects e.g. SOA counters?
+
+The abstract needs work, it should give an idea in general terms of what =
+work you=92ve done.  It abstracts from concrete details such as the =
+approach, but may contain a bit on the motivations and aspirations.
+
+Introduction, the =93common format=94 for SNMP is even a =93standard =
+format=94.  =93custom made solutions=94 =97> =93custom-made solutions=94 =
+ (because custom applies to made, not to solutions).
+
+Ref [4] to RFC 1611 isn=92t a very strong one, its status is HISTORIC, =
+see https://www.ietf.org/download/rfc-index.txt and the explaination in =
+RFC 3197.  Or, as stated in RFC 6168: "Previous standardization work =
+within the IETF resulted in the creation of two SNMP MIB modules =
+[RFC1611] [RFC1612], but they failed to achieve significant =
+implementation and deployment.  The perceived reasons behind the failure =
+for the two MIB modules are documented in [RFC3197].=94  =97 but I do =
+agree it is helpful to look at in line with this work, of course.
+
+2.1 SNMP is not a =93de facto standard=94 but a full-blown IETF =
+standard, so it=92s closer to the opposite, =93a de jure standard=94 :) =
+but nobody would say it like that.  It=92s plain and simply an Internet =
+Standard.
+You might want to add a remark that the =93set=94 facilities in SNMP =
+never made it to real-life use because of its limited security; nowadays =
+we have new options (one could use IPsec, or one might send SNMP over =
+SCTP with a protection layer) but other protocols seem to be leading the =
+=93set=94 aspect, so SNMP is only used in =93get=94 mode.
+
+2.2 =93rolled-over=94 -> =93roll over=94 (the dash is used to form a =
+combined adjective)
+=93It is not hard to notice=94 is subjective information.
+
+3 =93DNSSEC related data=94 -> =93DNSSEC-related data=94 (combined =
+adjective) =97 will stop quoting that form from here on :)
+=93those component=94 -> =93those components=94
+=93independent=94 prototype -> perhaps you meant to say =
+=93self-contained=94?
+
+3.2, 2nd (KSK): =93In doing so, the monitoring solution assumes that the =
+advised setting of the SEP bit on the KSK and only the KSK is followed =
+by the DNSSEC implementation, which is commonly the case.=94  (it is not =
+formally required by the RFCs on DNSSEC, but it is habitually followed.)
+* 3rd, what is the different between #DS and #delegations?  Do you mean =
+#DS =3D=3D #DNSKEY-with-SEP?  BTW, what you are saying is not true.  For =
+every signature algorithm (RSA-SHA1, RSA-SHA256, DSA-SHA1, and so on) =
+there must be at least one match between a DS and a DSKEY; addition DS =
+and/or DNSKEY RR are not harmful.  I do agree however, that it hints at =
+something that might be either undergoing change or, if it persists, =
+something that is not being managed properly.  The distinction is =
+between =93formally wrong=94 and =93sign of trouble=94.
+* 4th, (TTL), I don=92t really understand what you are saying here.  =
+Please spell =93re-signing=94 instead of =93resigning=94 =97 the latter =
+means to remove oneself from a job or assignment.
+* 6th, inception/expiration.  Are you not proposing to monitor bad =
+inception times?  Explain why.
+* 7th, =93incremented=94 -> =93increased=94 (I=92m not entirely sure; =
+maybe this is my mind, but I feel =93increment=94 to mean +1, perhaps =
+due to having seen most assembly level =93inc=94 instructions implement =
+a +=3D1 operation).
+
+3.3.1, "indexes for SNMP tables can be assigned to several basic =
+datatypes=94 =97 not factually true, it is not restricted to =93basic=94 =
+datatypes AFAIK, but might even have combinations of basic datatypes as =
+keys.  Not a big issue, mainly a matter of wording.  It is nice to see =
+how you picked up on this advise by the way, I really think it improved =
+the outcome.
+=93handle with strings=94 -> =93handle strings=94
+* You are mentioning the ASCII character set, but during your =
+presentation you spoke of UTF-8 encoded strings; that would only be of =
+interest when going beyond the ASCII set by using the Unicode character =
+set (which includes ASCII as a subset, and UTF-8 encoding would lead to =
+the normal ASCII representation in bytes with a zero MSB).  Had you used =
+Punycode to represent int=92l characters then the OCTET-STRING would =
+indeed have contained ASCII.
+
+3.4 =93Chapter 1=94, isn=92t it =93Section 1=94?
+
+4.1.1, XML was a surprise to me, as it introduces risk of race =
+conditions (one process writes while the other wants to read) and slows =
+down processing (at least, I=92ve seen process slow down due to XML =
+parsing, much to my surprise).  These concerns of consistency and =
+scalability are aggrevated by your choice to make one large XML file =
+with all the data.  This choice is suitable for a 4-week prototype but =
+some form of database (perhaps a blazing-fast key-value store) would =
+have been my choice.  Not a vital problem though, you=92ve made a choice =
+which is certainly common and defensible.  Still, I thought the =
+reflection might be useful for you to learn from.
+
+Ref 22, and maximum 255 in an OCTET-STRING: does the limit apply to =
+Punycode or UTF-8 representations?  That might make a difference=85 but =
+I=92ll grant you that this is me nitpicking.  Maybe something to =
+mention?
+
+Fig 3, can you show the link with the symbolic OID names?  That was my =
+reason for enthousiasm about the slides, the fact that you made this =
+link so clear, and thus showed brightly how your MIB is structured.
+
+Table 2, 1st column: perhaps \sf or \tt for the API calls to show that =
+it is code.  Are you sure there isn=92t a dot missing in the 3rd row?
+
+4.3 holds a =93TODO=94
+
+4.3, I very much believe that you=92ve made an architecturally sane =
+choice by decoupling the XML procssing from the SNMP responsiveness.  =
+Also see the XML remarks above =97 you are taking most of that away from =
+my feedback; scalability issues are now reduced to processing changes =
+fast enough.
+
+Conclusion.  You might want to add a bit.  What are the pros and cons of =
+your approach, have you stumbled on new findings.  Do you believe that =
+the structure of what you=92ve done is the =93right fit=94 for the task =
+it addresses, or are other approaches better?  For instance, did you =
+manage to get something that is =93more general=94 than the local =
+monitoring solutions, and did you nonetheless manage to keep it as =
+informative?  Any insights about the automatic pickup of newly added =
+zones?
+
+The images look like vector graphics that were exported and then =
+inserted as pixel-format pictures, such as PNG or JPG.  Your tool can =
+probably export PDF, which is easily included into pdfLaTeX as well =97 =
+and it=92ll look much better.  The current ones are barely readable.  =
+(This is generally useful to learn, because if you ever supply such =
+results to a book-printer in the future, you=92ll drive them mad.  I =
+remember how tense they were when I asked them to print my PhD thesis =97 =
+what format did I use?  So I replied a completely vectorial PDF starting =
+at page 1 and ending on page 182 and I could hear them loosening up over =
+the phone line.  Grinn.  Indeed, later I caught them explaining to a =
+Windows-no-no that spiffy 72 dpi on-screen images look very poor in =
+600dpi print resolution!)  As an alternative, you could output with more =
+pixels and scale down in pdfLaTeX =97 the file gets larger but at least =
+the pictures are more easily readable.
+
+Drop the \appendix statement if you don=92t add appendices please ;-) =
+and you also shouldn=92t have an empty =93Acknowledgements=94 section.
+
+Will you remember to checkin slides and final report in a doc/ directory =
+at GitHUB?
+
+Thanks for all your good work, and who knows=85 maybe we=92ll cross =
+swords again during your RP2 :-)
+
+-Rick=

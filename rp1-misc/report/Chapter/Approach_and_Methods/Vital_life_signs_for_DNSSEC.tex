@@ -1,0 +1,21 @@
+\subsection{Vital life signs for DNSSEC}
+\label{section:vital-life-signs-dnssec}
+There are many variables that can be monitored to keep a DNSSEC zone up and running properly. Here is a non-exhaustive list of what we think to be the most pertinent ones.
+
+
+\begin{itemize}
+\item One of the first variable that comes up to mind is the availability of a zone from a resolver point of view. If the local resolver cannot validate the NS (Name Server) record of a zone, it probably means its signature has expired and leads to a \textit{SERVFAIL} status. Thus, the administrator can spot easily the unavailability of a zone.
+
+\item As we previously mentioned, the KSK signs the DNSKEY RRset and acts as a SEP. It is seems legitimate to verify the signature of the DNSKEY RRset against the published KSK. 
+
+\item In order not to break the chain of trust, a parent zone should contain a DS record for each of its delegations. Hence, the number of delegations must be equal to the number of DS records on the parent side. 
+
+\item TTL (Time to Live) values are useful to cache replies of previous requests to limit the load on servers. But from a DNSSEC perspective, a too high TTL might cause issues as cashed replies may contain wrong information such as expired RRSIGs. Monitoring TTLs could help the administrator of a zone to spot incoherent values and to make use of these values when defining resigning policies.
+
+\item It is common practise to have a zone served by at least two severs, a master and a slave. While monitoring a zone, it is important to know how many servers deliver it and from which one the data is retrieved from (name and IP address).
+
+\item Signatures have an inception and expiration date. If the RRSIG of a record expires, the record stops being available. This expiration date is obviously one of the most relevant variable to monitor. Good candidates for this variable are the signatures on the SOA, NS and DNSKEY records as they are key features of the availability of a zone. The oldest signature might also give an indication of the status of a zone, as well as the number of expired signatures.
+
+\item Discrepancies between zone files on a master and a slave server might occur if AXFR encounters issues. The rule wants the serial number of a zone file on a master server to be incremented each time the file is modified. Hence, comparing serial numbers of the same zone delivered by a master and a slave server highlights zone transfer problems. The discrepancy check can be extended to records themselves in order to make it fine-grained.      
+
+\end{itemize}

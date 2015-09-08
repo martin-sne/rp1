@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZoneList>
+        <Zone name="os3.nl" id="1">
+                <table name="dnssecGlobalZoneTable">
+                        <dnssecGlobalZoneName>
+                                <data type="OctetString">os3.nl</data>
+                        </dnssecGlobalZoneName>
+                        <dnssecGlobalZoneRecordCount>
+                                <data type="Unsigned32">112</data>
+                        </dnssecGlobalZoneRecordCount>
+                </table>
+                <table name="dnssecZoneAuthNsTable">
+                	<dnssecZoneAuthNsName>
+				<data type="DisplayString">ns1.os3.nl</data>
+			</dnssecZoneAuthNsName>
+		</table>			
+        </Zone>
+        <Zone name="distributed-systems.net" id="2">
+                <table name="dnssecGlobalZoneTable">
+                        <dnssecGlobalZoneName>
+                                <data type="OctetString">distributed-systems.net</data>
+                        </dnssecGlobalZoneName>
+                        <dnssecGlobalZoneRecordCount>
+                                <data type="Unsigned32">108</data>
+                        </dnssecGlobalZoneRecordCount>
+                </table>
+                <table name="dnssecZoneAuthNsTable">
+                	<dnssecZoneAuthNsName>
+				<data type="DisplayString">ns1.distributed-systems.net</data>
+			</dnssecZoneAuthNsName>
+		</table>			
+        </Zone>  
+</ZoneList>

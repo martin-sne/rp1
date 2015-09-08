@@ -1,0 +1,20 @@
+# possible check AD, RD RA flag set by a auth server
+
+get SOA record for a domain from a resolver to get authoritative NS servers back
+test this NS servers if they behave like auth server should do, not responsde to recursive DNS queries
+
+
+# possible check --> collect data (see below) for each NS in master/slave and register it to our MIB
+--> Monitoring scripts could use this data to retrieve terrible diffs (e.g. KSK different, or different DS records)
+get KSK and ZSK, DS and RRSIG from Master/slave --> register to variable
+
+
+# Pre test Mib scenario (fake file dynamically changing)
+Imitate our mib and feed it with VITAL data to the python class (using generic datastructures (1000 zones or so) )
+Run queries against HUGE SNMP table and gather data (RRD)
+
+
+# In real world (if doable)
+-	requires to configure 500 delegations (per script) to each bind instances
+-	requires requires to collect data properly (validns or own scripts)
+

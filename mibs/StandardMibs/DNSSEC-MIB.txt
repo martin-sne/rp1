@@ -1,0 +1,560 @@
+DNSSEC-MIB DEFINITIONS ::= BEGIN
+
+-- Imports
+
+IMPORTS
+	MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+	Integer32, Unsigned32, Gauge32, TimeTicks
+		FROM SNMPv2-SMI
+	TEXTUAL-CONVENTION, DisplayString, DateAndTime
+		FROM SNMPv2-TC
+	MODULE-COMPLIANCE, OBJECT-GROUP, NOTIFICATION-GROUP
+		FROM SNMPv2-CONF
+	agentxObjects
+		FROM AGENTX-MIB;
+
+
+-- Description and update information
+
+dnssecMIB MODULE-IDENTITY
+	LAST-UPDATED "201501110000Z"
+	ORGANIZATION "UvA"
+	CONTACT-INFO
+			"Author:	Julien Nyczak
+			EMail: <julien.nyczak@os3.nl>
+
+			Author:	Martin Leucht
+			EMail: <martin.leucht@os3.nl>
+			"
+
+	DESCRIPTION
+		"DNSSEC MIB Draft"
+	REVISION "201501110000Z"
+	DESCRIPTION
+		"TODO: Here we put an concise decription"
+::= { agentxObjects 10859 }
+
+
+-- Definition of MIB's root nodes
+
+ dnssecObjects OBJECT IDENTIFIER      		::= { dnssecMIB 1 }
+ dnssecMIBConformance OBJECT IDENTIFIER 	::= { dnssecMIB 2 }
+ dnssecGeneral OBJECT IDENTIFIER      		::= { dnssecObjects 1 }
+ dnssecGlobal OBJECT IDENTIFIER   		    ::= { dnssecObjects 2 }
+ dnssecZoneSig OBJECT IDENTIFIER      		::= { dnssecObjects 3 }
+ dnssecZoneAuthNs OBJECT IDENTIFIER 		  ::= { dnssecObjects 4 }
+ dnssecZoneGlobHealth OBJECT IDENTIFIER   ::= { dnssecObjects 5 }
+ dnssecZoneDiff OBJECT IDENTIFIER 	      ::= { dnssecObjects 6 }
+ 
+
+dnssecZoneCount OBJECT-TYPE
+ SYNTAX      Unsigned32 (0..4294967295)
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "total number of DNS zones registered"
+ ::= { dnssecGeneral 1 }
+
+
+dnssecGlobalTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecGlobalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecGlobal 2 }
+
+dnssecGlobalEntry OBJECT-TYPE
+  SYNTAX      DnssecGlobalEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex }
+   ::= { dnssecGlobalTable 1 }
+
+ DnssecGlobalEntry ::= SEQUENCE {
+          dnssecGlobalIndex          		Unsigned32,
+          dnssecGlobalZoneName       		DisplayString,
+          dnssecGlobalZoneRecordCount  		Gauge32,
+          dnssecGlobalZoneRecordSetCount 	Gauge32, 
+          dnssecGlobalZoneDelegationCount	Gauge32,
+          dnssecGlobalZoneRRSigningEnabled	Integer32,
+	  dnssecGlobalZoneSigSigchase		Integer32,
+	  dnssecGlobalZoneAuthNsCount           Gauge32}
+
+ dnssecGlobalIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecGlobalEntry 1 }
+
+ dnssecGlobalZoneName OBJECT-TYPE
+   SYNTAX       DisplayString 
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Domain/Zone name"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 2 }
+
+ 
+dnssecGlobalZoneRecordCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of resource records present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 3 }
+
+
+dnssecGlobalZoneRecordSetCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of resource record sets present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 4 }
+
+dnssecGlobalZoneDelegationCount OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of zone delegations present in the zone. "
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 5 }
+
+dnssecGlobalZoneRRSigningEnabled OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if resource records are signed"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecGlobalEntry 6 }
+
+
+dnssecGlobalZoneSigSigchase OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Indicates if chain of trust exists."
+    REFERENCE
+            "RFC"
+   ::= { dnssecGlobalEntry 7 }
+
+dnssecGlobalZoneAuthNsCount OBJECT-TYPE
+ SYNTAX      Gauge32
+ MAX-ACCESS  read-only
+ STATUS      current
+ DESCRIPTION
+    "Number of authoritative name servers for this zone"
+ ::= { dnssecGlobalEntry 8 }
+
+
+-- Next table
+
+dnssecZoneSigTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneSigEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneSig 3 }
+
+dnssecZoneSigEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneSigEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex, dnssecZoneSigIndex }
+   ::= { dnssecZoneSigTable 1 }
+
+DnssecZoneSigEntry ::= SEQUENCE {
+	dnssecZoneSigIndex 			Unsigned32,
+	dnssecZoneSigOldestSignatureTime	DateAndTime,
+	dnssecZoneSigSoaSignatureTime		DateAndTime,
+	dnssecZoneSigOpenDnssecPolicyTime	DateAndTime,
+	dnssecZoneSigSignaturesTotal		Gauge32,
+	dnssecZoneSigValidationErrors		Gauge32,
+	dnssecZoneSigVerifiedSignatures		Gauge32}
+
+
+dnssecZoneSigIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description"
+   ::= { dnssecZoneSigEntry 1 }
+
+dnssecZoneSigOldestSignatureTime OBJECT-TYPE
+   SYNTAX       DateAndTime
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Oldest signature present in the zone"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneSigEntry 2 }
+
+
+dnssecZoneSigSoaSignatureTime OBJECT-TYPE
+   SYNTAX       DateAndTime
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "DateAndTime of the signature of the SOA record"
+    REFERENCE
+            "RFC"
+   ::= { dnssecZoneSigEntry 3 }
+
+dnssecZoneSigOpenDnssecPolicyTime OBJECT-TYPE
+   SYNTAX       DateAndTime
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Time threshold defined in OpenDNSSEC policy, when zone has to be resigned"
+    REFERENCE
+            "RFC"
+   ::= { dnssecZoneSigEntry 4 }
+
+dnssecZoneSigSignaturesTotal OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of resource record signatures in the zone"
+    REFERENCE
+            "RFC"
+   ::= { dnssecZoneSigEntry 5 }
+
+dnssecZoneSigValidationErrors OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of validation errors in the zone"
+    REFERENCE
+            "RFC"
+   ::= { dnssecZoneSigEntry 6 }
+
+dnssecZoneSigVerifiedSignatures OBJECT-TYPE
+   SYNTAX       Gauge32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Number of successfully verified signatures in the zone"
+    REFERENCE
+            "RFC"
+   ::= { dnssecZoneSigEntry 7 }
+
+
+
+-- table
+
+dnssecZoneAuthNsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneAuthNsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneAuthNs 4 }
+
+dnssecZoneAuthNsEntry OBJECT-TYPE
+  SYNTAX      DnssecZoneAuthNsEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex, dnssecZoneAuthNsIndex }
+   ::= { dnssecZoneAuthNsTable 1 }
+
+ DnssecZoneAuthNsEntry ::= SEQUENCE {
+          dnssecZoneAuthNsIndex                 Unsigned32,
+          dnssecZoneAuthNsName                  DisplayString}
+
+ dnssecZoneAuthNsIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneAuthNsEntry 1 }
+
+dnssecZoneAuthNsName OBJECT-TYPE
+   SYNTAX       DisplayString (SIZE (0..255))
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Name(s) of authoritative nameservers for this zone"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneAuthNsEntry 2 }
+
+-- next table
+
+dnssecZoneGlobHealthTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneGlobHealthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneGlobHealth  5 }
+
+dnssecZoneGlobHealthEntry  OBJECT-TYPE
+  SYNTAX      DnssecZoneGlobHealthEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex, dnssecZoneGlobHealthIndex }
+   ::= { dnssecZoneGlobHealthTable 1 }
+
+DnssecZoneGlobHealthEntry ::= SEQUENCE {
+          dnssecZoneGlobHealthIndex                     Unsigned32,
+          dnssecGlobHealthCNAMECorrectImplementation    Integer32,
+          dnssecGlobHealthDNAMECorrectImplementation    Integer32,
+          dnssecGlobHealthCorrectNSInstanceCount        Integer32, 
+          dnssecGlobHealthMXNoAlias                     Integer32,
+          dnssecGlobHealthAuthNsServesRa                Integer32,
+          dnssecGlobHealthNSNoAlias                     Integer32
+          }
+
+dnssecZoneGlobHealthIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneGlobHealthEntry 1 }
+
+dnssecGlobHealthCNAMECorrectImplementation OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Correct CNAME record implementation (TODO add RFC stuff)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  2 }
+
+dnssecGlobHealthDNAMECorrectImplementation OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Correct DNAME record implementation (TODO add RFC stuff)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  3 }
+
+dnssecGlobHealthCorrectNSInstanceCount   OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Minimum number of authoritative nameservers specified (Boolean)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  4 }
+
+dnssecGlobHealthMXNoAlias   OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Correct MX record implementation (TODO add RFC stuff)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  5 }
+
+dnssecGlobHealthAuthNsServesRa   OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "This value indicates if recursion is enabled on the authoritative nameservers (Boolean)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  6 }
+
+dnssecGlobHealthNSNoAlias   OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Correct NS record implementation (TODO add RFC stuff)"
+     
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneGlobHealthEntry  7 }
+
+-- next table
+
+dnssecZoneDiffTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF DnssecZoneDiffEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneDiff  6 }
+
+dnssecZoneDiffEntry  OBJECT-TYPE
+  SYNTAX      DnssecZoneDiffEntry
+  MAX-ACCESS  not-accessible
+  STATUS      current
+  DESCRIPTION
+     "Description
+     "
+   INDEX { dnssecGlobalIndex, dnssecZoneAuthNsIndex, dnssecZoneDiffIndex }
+   ::= { dnssecZoneDiffTable 1 }
+
+DnssecZoneDiffEntry ::= SEQUENCE {
+          dnssecZoneDiffIndex                       Unsigned32,
+          dnssecZoneDiffSerial                      Integer32,
+          dnssecZoneDiffKsk                         Integer32,
+          dnssecZoneDiffZsk                         Integer32, 
+          dnssecZoneDiffRrsig                       Integer32,
+          dnssecZoneDiffDs                          Integer32
+          }
+
+dnssecZoneDiffIndex OBJECT-TYPE
+   SYNTAX       Unsigned32 (1..4294967295)
+   MAX-ACCESS   not-accessible
+   STATUS       current
+   DESCRIPTION
+     "Description
+     "
+   ::= { dnssecZoneDiffEntry 1 }
+
+dnssecZoneDiffSerial OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Differences in SOA record serial numbers between master and slave(s)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneDiffEntry  2 }
+
+dnssecZoneDiffKsk OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Differences in KSK record between master and slave(s)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneDiffEntry  3 }
+
+dnssecZoneDiffZsk  OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Differences in ZSK record between master and slave(s)"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneDiffEntry  4 }
+
+dnssecZoneDiffRrsig  OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Differences in RRSIG record(s) between master and slave(s"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneDiffEntry  5 }
+
+
+dnssecZoneDiffDs  OBJECT-TYPE
+   SYNTAX       Integer32
+   MAX-ACCESS   read-only
+   STATUS       current
+   DESCRIPTION
+     "Differences in DS record(s) between master and slave(s"
+    REFERENCE
+            "RFC" 
+   ::= { dnssecZoneDiffEntry  6 }
+
+-- Conformance Statements for DNSSEC
+
+
+dnssecMIBGroups       OBJECT IDENTIFIER   ::= { dnssecMIBConformance 1 }
+dnssecMIBCompliances  OBJECT IDENTIFIER   ::= { dnssecMIBConformance 2 }
+
+dnssecMIBScalarGroup OBJECT-GROUP
+  OBJECTS {
+      dnssecZoneCount
+         }
+  STATUS      current
+  DESCRIPTION
+     "All accessible scalar objects in the DNSSEC-MIB.
+     "
+  ::= { dnssecMIBGroups 1 }
+
+
+dnssecMIBTableGroup OBJECT-GROUP
+  OBJECTS {
+      dnssecZoneCount,
+      dnssecGlobalZoneName,
+      dnssecGlobalZoneRecordCount,
+      dnssecGlobalZoneRecordSetCount,
+      dnssecGlobalZoneDelegationCount,
+      dnssecGlobalZoneRRSigningEnabled,
+      dnssecGlobalZoneSigSigchase,
+      dnssecGlobalZoneAuthNsCount,
+      dnssecZoneSigOldestSignatureTime,
+      dnssecZoneSigSoaSignatureTime,
+      dnssecZoneSigOpenDnssecPolicyTime,
+      dnssecZoneSigSignaturesTotal,
+      dnssecZoneSigValidationErrors,
+      dnssecZoneSigVerifiedSignatures,
+      dnssecZoneAuthNsName,
+      dnssecGlobHealthCNAMECorrectImplementation,
+      dnssecGlobHealthDNAMECorrectImplementation,
+      dnssecGlobHealthCorrectNSInstanceCount,
+      dnssecGlobHealthMXNoAlias,
+      dnssecGlobHealthAuthNsServesRa,
+      dnssecGlobHealthNSNoAlias,
+      dnssecZoneDiffSerial,
+      dnssecZoneDiffKsk,
+      dnssecZoneDiffZsk,
+      dnssecZoneDiffRrsig,
+      dnssecZoneDiffDs
+    }
+  STATUS      current
+  DESCRIPTION
+     "All accessible table objects in the DNSSEC-MIB.
+     "
+  ::= { dnssecMIBGroups 2 }
+
+END
+
+

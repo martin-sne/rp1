@@ -1,0 +1,35 @@
+\subsection{SNMP MIB design}
+\label{section:mib-module}
+Creating an SNMP MIB requires to have an OID entry point as described in Chapter \ref{chap:background}. Moreover several design considerations have to be taken into account. In that chapter an overview of design considerations related to our MIB is given. It is not intended to be a description for each detail that a MIB dsigner needs to obey.
+\\
+First, one need to  figure out what data will go into the MIB and how different data groups are separated in subbranches starting from the assigned OID entry point. Data can be organized in columnar or scalar objects. Scalar objects define a single object instance, whereas columnar objects allow to represent tables. 
+
+\subsubsection{SNMP table indexing}
+
+Tables are the most complex objects that can be defined inside a MIB. Table rows are referenced by indexes comparable to primary keys in database structures. In SNMP it is common to use the term conceptual tables \cite{perkins}. Table row entries and instances of them are created or deleted dynamically by an SNMP agent each time a new variable is registered to a row. 
+\\
+In contrast to database structures, indexes for SNMP tables can be assigned to several basic datatypes or combinations of them, like integer or string variables \cite{smiv2}.
+\\
+In our MIB, the primary key of all tables is represented by the domain name of a DNS zone. For this reason datatype OCTET-STRING is used for indexing of all tables. Further, it is more intuitive to handle with strings rather than with long numerical OIDs. However, inside the payload of SNMP packets, when datatype OCTET-STRING is used for indexes, each letter is represented as the corresponding decimal ASCII value. 
+\\
+It might be required to go beyond the ASCII character set by using the Unicode character set \footnote{the unicode character set includes ASCII as a subset}, particularly when Internationalized Domain Names (IDN) \cite{idn} are considered to be taken into account. Then strings would be encoded as UTF-8 \cite{utf-8}. One could circumvent that, by first converting domain names that include international characters, using the Punycode \cite{punycode} algorithm, before the domain is linked as value inside a MIB object. The Punycode algorithm offers the capability to represent Unicode with the limited character subset of ASCII. To provide the ability to cover internationalized domain names without converting them into ASCII characters (by applying the Punycode algorithm), UTF-8 encoding is allowed to represent domain names as indexes and values of instances of objects within the MIB.
+
+\subsubsection{Data types and textual conventions}
+
+A further point which needs to be considered is the choice of the right datatype for each object-type in the MIB. The SNMP protocol and the underlying ASN.1 types allow three basic datatypes for data fields in an SNMP message \cite{snmp-wire}:
+\\
+\begin{itemize}
+\item
+INTEGER based types (Counters, Gauges, Integers)
+\item
+OCTET-STRING based types (Displayable Strings, IpAddress DateAndTime, etc)
+\item
+OBJECT IDENTIFIERS
+\end{itemize}
+
+Basic numeric values e.g. the number of zones covered by the DNSSEC MIB are represented as simple INTEGER datatypes. OCTET-STRINGS are used to cover string values, for example domain names. To add additional restrictions to values of instances of objects, textual conventions can be defined. Textual conventions are a method for creating new datatype definitions and let MIB designers decribe their properties more precisely. 
+\\
+Encoding on the wire of the values of assigned  datatypes  defined in textual convention is based on the ASN.1 Basic Encoding Rules (BER) \cite{ber-asn1}  \cite{snmp-wire}.
+\\
+Within a textual convention a DISPLAY-HINT clause can be defined that specifies how the desired output format of an instance of an object should look like. Textual conventions are imported by including other MIB modules \cite{smi-tc} or by defining them in the MIB itself. 
+

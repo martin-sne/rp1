@@ -1,0 +1,119 @@
+%%\documentclass[11pt,twocolumn]{report}
+\documentclass[10pt]{article}
+
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[procnames]{listings}
+\usepackage{color}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage[bottom]{footmisc}
+\usepackage{pdfpages}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+
+
+\renewcommand{\bibsection}{}
+
+\newfloat{listing}{H}{lop}
+\floatname{listing}{Listing}
+
+
+
+%%\renewcommand{\bibname}{References} 
+\newcommand{\q}[1]{``#1''}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+%\title{Research Project 1 - Monitoring DNSSEC}
+
+%\author{
+%	Martin Leucht \\ 
+%	\texttt{martin.leucht@os3.nl}
+%	\and Julien Nyczak \\
+%	\texttt{julien.nyczak@os3.nl}
+%	\and Supervisor: Rick van Rein
+%	\and 
+%	\and 
+%	\and System and Network Engineering
+%	\and University of Amsterdam
+%}
+
+
+
+
+%%\renewcommand*\contentsname{Table of Contents}
+
+\begin{document}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+ 
+\lstset{language=Python, 
+        basicstyle=\ttfamily\tiny, 
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class}}
+%%\maketitle
+\input{Front_page.tex}
+
+\thispagestyle{empty}
+\newpage
+
+\begin{abstract}
+Monitoring DNSSEC zones is essential to keep them fully operational. Although SNMP is a very old fashioned protocol, it is still widely used to monitor devices on IP Networks and can be implemented for applications as well, such as DNSSEC. This paper focuses on building a proof of concept for monitoring DNSSEC through SNMP. To that aim, we have constructed an SNMP MIB module that, once loaded to an SNMP subagent, provides DNSSEC critical parameters to a monitoring station. DNSSEC data is retrieved periodically by Python scripts and inserted into a central XML file parsed by the SNMP subagent. New zones are handled automatically when simply specified in a configuration file. The usage of SNMP makes our proof of concept easily deployable. However, it lacks features such as notifications and might show performance issues when it comes to monitor a large number of zones.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\input{Chapter/Introduction}
+
+\newpage
+
+\input{Chapter/Background}
+
+\newpage
+
+\input{Chapter/Approach_and_Methods}
+\input{Chapter/Approach_and_Methods/Overview}
+\input{Chapter/Approach_and_Methods/Vital_life_signs_for_DNSSEC}
+\input{Chapter/Approach_and_Methods/SNMP_MIB_module_design}
+%%\input{Chapter/Approach_and_Methods/SNMP_Subagent}
+
+\newpage
+
+\input{Chapter/Results}
+\input{Chapter/Results/Data_collection}
+\input{Chapter/Results/DNSSEC_SNMP_MIB_implementation}
+\input{Chapter/Results/SNMP_Subagent_implementation}
+\input{Chapter/Results/Conduct_DNSSEC_monitoring}
+
+\newpage
+
+\input{Chapter/Conclusion}
+
+\newpage
+
+\input{Chapter/Future_Work}
+
+\newpage
+
+\input{Chapter/Acknowledgments}
+
+\newpage
+
+\input{Chapter/References}
+
+
+%%\input{Chapter/Appendices}
+\end{document}

@@ -1,0 +1,22 @@
+\subsection{Vital life signs for DNSSEC}
+\label{section:vital-life-signs-dnssec}
+There are many variables that can be monitored to keep a DNSSEC zone up and running properly. Here is a non-exhaustive list of what we think to be the most pertinent ones.
+
+
+\begin{itemize}
+\item One of the first variable that comes up to mind is the availability of a zone from a resolver point of view. If the local resolver cannot validate the NS (Name Server) record of a zone, it probably means its signature has expired and leads to a SERVFAIL status. Thus, the administrator can spot easily the unavailability of a zone.
+
+\item As we previously mentioned, the KSK signs the DNSKEY RRset and acts as a SEP. It is seems legitimate to verify the signature of the DNSKEY RRset against the published KSK. In doing so, the monitoring solution assumes that the advised setting of the SEP bit on the KSK and only the KSK is followed by the DNSSEC implementation, which is commonly the case.
+
+\item In order not to break the chain of trust, there must be at least one match between a DS RR in the parent zone and a DNSKEY RR in the child zone for every signature algorithm (RSA-SHA1, RSA-SHA256, DSA-SHA1, etc). Hence, the number of delegations must be at least equal to the number of DS records on the parent side. Additional DS or DNSKEY RR are not harmful.
+
+\item TTL (Time to Live) values are useful to cache replies of previous requests to limit the load on servers. But from a DNSSEC perspective, TTL values should not be set randomly. According to the RFC 4641bis, on one hand the maximum zone TTL of the RRset of a zone should be several times smaller than the validity period of the RRSIGs. On the other hand, the minimum zone TTL value should be long enough to validate the whole chain of trust and to avoid high loads on recursive name servers.
+
+\item It is common practise to have a zone served by at least two severs, a master and a slave. While monitoring a zone, it is important to know how many servers deliver it and from which one the data is retrieved from (name and IP address).
+
+\item Signatures have an inception and an expiration date. If the RRSIG of an RR expires, the record stops being available. This expiration date is obviously one of the most relevant variable to monitor. Good candidates for this variable are the signatures on the SOA, NS and DNSKEY records as they are key features of the availability of a zone. The oldest signature, that represents an inception date, might also give an indication of the status of a zone, as well as the number of expired signatures. Inception dates of RRSIGs are also worth to be monitored. If such a date is in the future it will also result in the unavailibility of the corresponding RR. 
+
+\item Discrepancies between zone files on a master and a slave server might occur if AXFR encounters issues. The rule wants the serial number of a zone file on a master server to be increased each time the file is modified. Hence, comparing serial numbers of the same zone delivered by a master and a slave server highlights zone transfer problems. The discrepancy check can be extended to records themselves in order to make it fine-grained.      
+
+\end{itemize}
+Once all the variables are known, they can be organised and grouped to form the scalar and tabular objects of the MIB module. The MIB module design is based on these variables.

@@ -1,0 +1,21 @@
+\section{Introduction}
+\label{chap:introduction}
+As figures demonstrate, DNSSEC (Domain Name System Security Extension) becomes more and more popular. Indeed, 77\% of top-level domains (TLDs) have trust anchors published as delegation signer (DS) records in the root zone\cite{stats}. However, to function properly, resource records (RR) of a DNSSEC-enabled zone need to be regularly signed since signatures have an expiration date. If signatures have not been refreshed in time, the zone becomes unreachable. This is not acceptable.
+\\
+Monitoring DNSSEC parameters, such as signature expiration dates, could avoid those undesired effects. For instance, a monitoring system would send notifications to the zone maintainer when a resource record signature (RRSIG) of a resource record is about to expire.
+\\
+There exist a lot of approaches to monitor DNSSEC. For example, service providers offering DNSSEC services have developed their own utilities, often strongly related to their infrastructures and demands. None of these solutions uses the Simple Network Management Protocol (SNMP). SNMP provides an abstraction model for data required to be monitored. This data is represented in a common format, known as an SNMP Management Information Base (MIB). Thus, it makes it applicable for a generic use in monitoring systems, rather than for custom made solutions. The absence of a MIB module for DNSSEC urges to develop such a solution.
+
+\subsection{Related Work}
+As pointed out earlier, there are plenty of monitoring systems already existing for DNSSEC\cite{list}, but we are looking for an integrated SNMP-compliant tool. We want to write our SNMP sub-agent in Python, and some work has already been done towards that direction. Indeed, \textit{python-netsnmpagent}\cite{pythonnetsnmpagent} is a Python module that facilitates the writing of Net-SNMP subagents in Python.
+Furthermore, a DNS server MIB\cite{dnsmib} has already been created. Its purpose was to manage DNS name server (e.g. updating zones) but has been retired since\cite{dnsmib_retire} because inter alia, goals were not clearly defined. However, MIB modules for DNSSEC monitoring do not seem to have ever been created.
+
+
+\subsection{Research Questions}
+Our main goal is to develop an SNMP-compliant monitoring prototype solution. This implies the definition of a set of variables meaningful to the well-being of a DNSSEC signed zone, the construction of a MIB module for DNSSEC, and the development of an SNMP agent meant to feed the MIB. This naturally leads to the following research questions.
+\begin{itemize}
+\item What are vital life signs for monitoring DNSSEC?
+\item How to construct a MIB module for DNSSEC?
+\item How to conduct monitoring based on such a MIB?
+\item How do architectures for monitoring DNSSEC compare?
+\end{itemize}

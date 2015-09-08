@@ -1,0 +1,17 @@
+os3.nl_dnssecGlobalZoneName-2-OctetString_os3.nl
+os3.nl_dnssecGlobalZoneRecordCount-3-Unsigned32_112
+os3.nl_dnssecGlobalZoneRecordSetCount-4-Unsigned32_56
+os3.nl_dnssecGlobalZoneDelegationCount-5-Unsigned32_2
+os3.nl_dnssecGlobalZoneRRSigningEnabled-6-Integer32_1
+os3.nl_dnssecGlobalZoneSigSigchase-7-Integer32_1
+os3.nl_dnssecGlobalZoneAuthNsCount-8-Unsigned32_2
+os3.nl_dnssecZoneAuthNsName-1-DisplayString_ns1.os3.nl
+
+distributed-systems.net_dnssecGlobalZoneName-2-OctetString_distributed-systems.net
+distributed-systems.net_dnssecGlobalZoneRecordCount-3-Unsigned32_112
+distributed-systems.net_dnssecGlobalZoneRecordSetCount-4-Unsigned32_56
+distributed-systems.net_dnssecGlobalZoneDelegationCount-5-Unsigned32_2
+distributed-systems.net_dnssecGlobalZoneRRSigningEnabled-6-Integer32_1
+distributed-systems.net_dnssecGlobalZoneSigSigchase-7-Integer32_1
+distributed-systems.net_dnssecGlobalZoneAuthNsCount-8-Unsigned32_2
+distributed-systems.net_dnssecZoneAuthNsName-1-DisplayString_ns1.distributed-systems.net
